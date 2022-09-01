@@ -3,8 +3,8 @@ import pyvista as pv
 import io
 import tempfile
 
-pv.set_jupyter_backend(None)
-pv.start_xvfb(wait=0,window_size=[500,800])
+pv.start_xvfb()
+pv.set_jupyter_backend('pythreejs')
 
 ## Upload a pyvista file
 uploadedFile = st.file_uploader("Upload a STL:",["stl"],False)
@@ -39,7 +39,7 @@ if uploadedFile:
         model_html = io.StringIO()
         plotter.export_html(model_html, backend='pythreejs')
             
-    st.code(model_html.getvalue(),language="cshtml")
+    st.sidebar.code(model_html.getvalue(),language="cshtml")
 
     ## Show in webpage
-    st.components.v1.html(model_html.getvalue(),height=800)
+    st.components.v1.html(model_html.getvalue(),height=800,scrolling=True)

@@ -2,3 +2,4 @@ streamlit
 pyvista
 pythreejs
 ipywidgets
+panel

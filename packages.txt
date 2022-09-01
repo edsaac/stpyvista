@@ -1,2 +1,4 @@
 libgl1
 libxrender-dev
+nodejs
+npm

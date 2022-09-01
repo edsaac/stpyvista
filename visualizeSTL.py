@@ -19,13 +19,15 @@ if uploadedFile:
     color_stl = col1.color_picker("Element","#0BD88D")
     color_bkg = col2.color_picker("Background","#FFFFFF")
 
-    ## Initialize pyvista reader and plotter
-    plotter = pv.Plotter(border=True, window_size=[500,800]) 
-    plotter.background_color = color_bkg
-
     ## Create a tempfile to keep the uploaded file as pyvista's API 
     ## only supports file paths but not buffers
     with tempfile.NamedTemporaryFile(suffix=".streamlit",dir=".") as f: 
+    
+        ## Initialize pyvista reader and plotter
+        plotter = pv.Plotter(border=True, window_size=[500,800],off_screen=True) 
+        plotter.background_color = color_bkg
+
+        ## Read file
         f.write(uploadedFile.getbuffer())
         reader = pv.STLReader(f.name)
 

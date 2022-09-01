@@ -29,13 +29,13 @@ if uploadedFile:
         f.write(uploadedFile.getbuffer())
         reader = pv.STLReader(f.name)
     
-        ## Read data and send to plotter
-        mesh = reader.read()
-        plotter.add_mesh(mesh,color=color_stl)
+    ## Read data and send to plotter
+    mesh = reader.read()
+    plotter.add_mesh(mesh,color=color_stl)
 
-        ## Export to a pythreejs HTML
-        model_html = io.StringIO()
-        plotter.export_html(model_html, backend='pythreejs')
-        
-        ## Show in webpage
-        st.components.v1.html(model_html.getvalue(),height=400)
+    ## Export to a pythreejs HTML
+    model_html = io.StringIO()
+    plotter.export_html(model_html, backend='pythreejs')
+    
+    ## Show in webpage
+    st.components.v1.html(model_html.getvalue(),height=400)

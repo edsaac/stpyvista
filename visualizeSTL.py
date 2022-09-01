@@ -4,6 +4,7 @@ import io
 import tempfile
 
 pv.set_jupyter_backend(None)
+pv.start_xvfb()
 
 ## Upload a pyvista file
 uploadedFile = st.file_uploader("Upload a STL:",["stl"],False)

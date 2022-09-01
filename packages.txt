@@ -2,3 +2,5 @@ libgl1
 libxrender-dev
 nodejs
 npm
+libgl1-mesa-glx
+xvfb

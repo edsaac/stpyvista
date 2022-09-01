@@ -38,8 +38,9 @@ if uploadedFile:
         ## Export to a pythreejs HTML
         model_html = io.StringIO()
         plotter.export_html(model_html, backend='pythreejs')
+        str_model = model_html.getvalue()
             
-    st.sidebar.code(model_html.getvalue(),language="cshtml")
-
     ## Show in webpage
-    st.components.v1.html(model_html.getvalue(),height=800,scrolling=True)
+    st.components.v1.html(str_model,height=800,scrolling=True)
+    st.sidebar.code(str_model,language="cshtml")
+    model_html.close()

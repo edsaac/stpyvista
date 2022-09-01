@@ -3,3 +3,6 @@ npm
 libgl1-mesa-glx
 xvfb
 libxrender-dev
+libjs-three
+node-three-orbit-controls
+node-three-stl-loader

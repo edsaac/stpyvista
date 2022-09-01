@@ -40,10 +40,10 @@ if uploadedFile:
         plotter.export_html(model_html, backend='pythreejs')
         
         ## Snapshot?
-        plotter.screenshot(filename="screenshot.png")
+        plotter.screenshot("screenshot.png")
         
         st.image(
-            plotter.screenshot(filename="screenshot2.png",return_img=True)
+            plotter.screenshot(None,return_img=True)
         )
 
         st.image("screenshot.png")

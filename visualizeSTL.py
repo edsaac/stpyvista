@@ -3,7 +3,7 @@ import pyvista as pv
 import io
 import tempfile
 
-pv.start_xvfb()
+## Using pythreejs as pyvista backend
 pv.set_jupyter_backend('pythreejs')
 
 ## Upload a pyvista file
@@ -19,18 +19,16 @@ if uploadedFile:
     color_stl = col1.color_picker("Element","#0BD88D")
     color_bkg = col2.color_picker("Background","#FFFFFF")
 
+    ## Initialize pyvista reader and plotter
+    plotter = pv.Plotter(border=False, window_size=[500,400]) 
+    plotter.background_color = color_bkg
+
     ## Create a tempfile to keep the uploaded file as pyvista's API 
     ## only supports file paths but not buffers
-    with tempfile.NamedTemporaryFile(suffix=".streamlit",dir=".") as f: 
-    
-        ## Initialize pyvista reader and plotter
-        plotter = pv.Plotter(border=True, window_size=[500,800],off_screen=False) 
-        plotter.background_color = color_bkg
-
-        ## Read file
+    with tempfile.NamedTemporaryFile(suffix="_streamlit") as f: 
         f.write(uploadedFile.getbuffer())
         reader = pv.STLReader(f.name)
-
+    
         ## Read data and send to plotter
         mesh = reader.read()
         plotter.add_mesh(mesh,color=color_stl)
@@ -38,9 +36,6 @@ if uploadedFile:
         ## Export to a pythreejs HTML
         model_html = io.StringIO()
         plotter.export_html(model_html, backend='pythreejs')
-        str_model = model_html.getvalue()
-            
-    ## Show in webpage
-    st.components.v1.html(str_model,height=800,scrolling=True)
-    st.sidebar.code(str_model,language="cshtml")
-    model_html.close()
+        
+        ## Show in webpage
+        st.components.v1.html(model_html.getvalue(),height=400)

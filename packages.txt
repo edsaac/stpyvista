@@ -1,3 +1,5 @@
+nodejs
+npm
+libgl1-mesa-glx
 xvfb
 libxrender-dev
-libgl1-mesa-glx

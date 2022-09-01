@@ -2,4 +2,4 @@ streamlit
 pyvista
 pythreejs
 ipywidgets
-panel
+ipython

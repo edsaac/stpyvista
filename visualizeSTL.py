@@ -3,8 +3,7 @@ import pyvista as pv
 import io
 import tempfile
 
-## Using pythreejs as pyvista backend
-pv.set_jupyter_backend('pythreejs')
+pv.set_jupyter_backend(None)
 
 ## Upload a pyvista file
 uploadedFile = st.file_uploader("Upload a STL:",["stl"],False)
@@ -24,7 +23,7 @@ if uploadedFile:
     with tempfile.NamedTemporaryFile(suffix=".streamlit",dir=".") as f: 
     
         ## Initialize pyvista reader and plotter
-        plotter = pv.Plotter(border=True, window_size=[500,800],off_screen=True) 
+        plotter = pv.Plotter(border=True, window_size=[500,800],off_screen=False) 
         plotter.background_color = color_bkg
 
         ## Read file

@@ -38,16 +38,7 @@ if uploadedFile:
         model_html = io.StringIO()
         plotter.export_html(model_html, backend='pythreejs')
         
-        ## Snapshot?
-        plotter.screenshot("screenshot.png")
-        
-        st.image(
-            plotter.screenshot(None,return_img=True)
-        )
-
-        st.image("screenshot.png")
-        
-    
+            
     st.code(model_html.getvalue(),language="cshtml")
 
     ## Show in webpage

@@ -6,3 +6,5 @@ libxrender-dev
 libjs-three
 node-three-orbit-controls
 node-three-stl-loader
+libvtk6-dev
+libvtk7-dev

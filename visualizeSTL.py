@@ -20,7 +20,7 @@ if uploadedFile:
     color_bkg = col2.color_picker("Background","#FFFFFF")
 
     ## Initialize pyvista reader and plotter
-    plotter = pv.Plotter(border=True, window_size=[500,400]) 
+    plotter = pv.Plotter(border=True, window_size=[500,800]) 
     plotter.background_color = color_bkg
 
     ## Create a tempfile to keep the uploaded file as pyvista's API 
@@ -28,7 +28,7 @@ if uploadedFile:
     with tempfile.NamedTemporaryFile(suffix=".streamlit",dir=".") as f: 
         f.write(uploadedFile.getbuffer())
         reader = pv.STLReader(f.name)
-    
+
         ## Read data and send to plotter
         mesh = reader.read()
         plotter.add_mesh(mesh,color=color_stl)
@@ -36,8 +36,18 @@ if uploadedFile:
         ## Export to a pythreejs HTML
         model_html = io.StringIO()
         plotter.export_html(model_html, backend='pythreejs')
+        
+        ## Snapshot?
+        plotter.screenshot(filename="screenshot.png")
+        
+        st.image(
+            plotter.screenshot(filename="screenshot2.png",return_img=True)
+        )
+
+        st.image("screenshot.png")
+        
     
     st.code(model_html.getvalue(),language="cshtml")
 
     ## Show in webpage
-    st.components.v1.html(model_html.getvalue(),height=400)
+    st.components.v1.html(model_html.getvalue(),height=800)

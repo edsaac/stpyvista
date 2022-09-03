@@ -11,4 +11,3 @@ libvtk7-dev
 r-cran-threejs
 libxrender1
 libosmesa6
-Footer

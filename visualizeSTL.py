@@ -39,3 +39,6 @@ if uploadedFile:
         
         ## Show in webpage
         st.components.v1.html(model_html.getvalue(),height=400)
+
+        ## Print HTML
+        st.code(model_html.getvalue(),language='cshtml')

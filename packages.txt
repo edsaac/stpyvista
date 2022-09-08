@@ -8,3 +8,6 @@ node-three-orbit-controls
 node-three-stl-loader
 libvtk6-dev
 libvtk7-dev
+r-cran-threejs
+libxrender1
+libosmesa6

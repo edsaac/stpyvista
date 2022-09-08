@@ -41,4 +41,5 @@ if uploadedFile:
         st.components.v1.html(model_html.getvalue(),height=400)
 
         ## Print HTML
-        st.code(model_html.getvalue(),language='cshtml')
+        with st.expander("Code"):
+            st.code(model_html.getvalue(),language='cshtml')

@@ -1,5 +1,0 @@
-streamlit
-pyvista==0.36.1
-pythreejs==2.3.0
-ipywidgets==7.7.1
-ipython==8.4.0

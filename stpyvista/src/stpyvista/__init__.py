@@ -50,8 +50,6 @@ def stpyvista(
     model_html.close()
     
     window_width, window_height = plotter.window_size
-    print(window_width is plotter.window_size[0])
-    print(window_height)
 
     component_value = _component_func(
         value = parsed_html,
@@ -63,15 +61,16 @@ def stpyvista(
     return component_value
 
 def main():
+    import datetime
 
     st.title("Component `stpyvista`")
-    
+    placeholder = st.empty()
     path_to_stl = "../../../onewaywrap/assets/ToolHolder.STL"
     if os.path.exists(path_to_stl):
 
         ## Initialize pyvista reader and plotter
-        plotter = pv.Plotter(border=True, window_size=[600,400]) 
-        plotter.set_background('white', top='black')
+        plotter = pv.Plotter(border=True, border_width=1, window_size=[400,400]) 
+        plotter.set_background('#D3EEFF')
 
         ## Color panel
         color_stl = st.color_picker("Element","#0BD88D")
@@ -79,9 +78,11 @@ def main():
         ## Initialize pyvista reader and plotter
         reader = pv.STLReader(path_to_stl)
         mesh = reader.read()
-        plotter.add_mesh(mesh, color=color_stl, texture="wood")
+        plotter.add_mesh(mesh, color=color_stl)
+        out = stpyvista(plotter)
 
-        stpyvista(plotter)
+        placeholder.markdown(f"{datetime.datetime.now()} :: {out}")
+        print(f"{datetime.datetime.now()} :: {out}")
 
         st.header("Hello Again")
         st.button("Hey")

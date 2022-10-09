@@ -13,26 +13,26 @@ function sendValue(value) {
  * component gets new data from Python.
  */
 function onRender(event) {
+  
   // Only run the render code the first time the component is loaded.
   if (!window.rendered) {
     // You most likely want to get the data passed in like this
-    const {title, value, width, height, key} = event.detail.args;
+    const {value, width, height, key} = event.detail.args;
 
     const div_all = document.getElementById("stPyVista");
-    // const div_title = document.getElementById("stPyVistaTitle");
     const st_iframe = document.getElementById("stPyVistaFrame");
-    
-    // div_title.innerText = title;
-    
-    st_iframe.style.width = width;
-    st_iframe.style.height = height;
     
     // You'll most likely want to pass some data back to Python like this   
     // sendValue({output1: div_el.offsetWidth})
 
     st_iframe.srcdoc = value;
-    Streamlit.setFrameHeight(height)
+    
+    st_iframe.width = width + 20;
+    st_iframe.height = height + 30;
+    
+    st_iframe.style.border = "none";
 
+    Streamlit.setFrameHeight(height + 50)
     window.rendered = true;
   }
 }
@@ -44,4 +44,4 @@ Streamlit.events.addEventListener(Streamlit.RENDER_EVENT, onRender)
 Streamlit.setComponentReady()
 
 // Render with the correct height, if this is a fixed-height component
-// Streamlit.setFrameHeight(500)
+Streamlit.setFrameHeight()

@@ -18,7 +18,8 @@ const Streamlit = {
       sendMessageToStreamlitClient("streamlit:setFrameHeight", {height: height});
   },
   setComponentValue: function(value) {
-      sendMessageToStreamlitClient("streamlit:setComponentValue", {value: value});
+    sendMessageToStreamlitClient("streamlit:setComponentValue", {value: value});
+    // sendMessageToStreamlitClient("streamlit:setComponentValue", {value});  
   },
   RENDER_EVENT: "streamlit:render",
   events: {

@@ -23,8 +23,9 @@ function onRender(event) {
 
     // You most likely want to get the data passed in like this
     const {value, width, height, key} = event.detail.args;
+    
     const div_all = document.getElementById("stPyVista");
-    const st_iframe = document.getElementById("stPyVistaFrame");
+    const st_iframe = document.getElementById("stPyVistaFrame");    
     
     // Pass the threejs HTML to the iframe
     st_iframe.srcdoc = value;  
@@ -34,18 +35,19 @@ function onRender(event) {
     st_iframe.height = height + 25;
     Streamlit.setFrameHeight(height + 40);
     
-    // Remove default iframe border. 
-    // A border can be set from the pv.Plotter
-    st_iframe.style.border = "none";
 
-    // Streamlit.setComponentValue(10)
+    // Test sending back a value
+    div_all.addEventListener('click', event => sendValue(666999), false);
+    div_all.addEventListener('click', event => changeColor("red"), false);
+
+    // Remove default iframe border. A border can be set from the pv.Plotter
+    st_iframe.style.border = "none";
 
     window.rendered = true;
   }
   
   // You'll most likely want to pass some data back to Python like this   
   // document.getElementById("stPyVistaFrame").addEventListener('pointerover', event => changeColor("red"), false);
-  // document.getElementById("stPyVistaFrame").addEventListener('pointerover', event => Streamlit.setComponentValue(1.0), false);
   // Streamlit.setComponentValue("HiOut")
 }
 

@@ -1,3 +1,4 @@
+from math import degrees
 from pathlib import Path
 from turtle import window_height, window_width
 from typing import Optional
@@ -11,6 +12,7 @@ import os
 
 ## Using pythreejs as pyvista backend
 pv.set_jupyter_backend('pythreejs')
+pv.global_theme.transparent_background = True
 
 # Tell streamlit that there is a component called stpyvista,
 # and that the code to display that component is in the "frontend" folder
@@ -25,7 +27,7 @@ _component_func = components.declare_component(
 def stpyvista(
     plotter : pv.Plotter,
     key: Optional[str] = None,
-):
+) -> float:
     """
     Renders a pyvista Plotter object
     
@@ -41,7 +43,7 @@ def stpyvista(
     
     Returns
     -------
-    None
+    float
     """
 
     model_html = io.StringIO()
@@ -49,13 +51,17 @@ def stpyvista(
     parsed_html = model_html.getvalue()
     model_html.close()
     
+    # with open("generated.html",'w') as f:
+    #     f.write(parsed_html)
+
     window_width, window_height = plotter.window_size
 
     component_value = _component_func(
         value = parsed_html,
         width = window_width,
         height = window_height,
-        key = key
+        key = key,
+        default = 0
     )
 
     return component_value
@@ -64,31 +70,62 @@ def main():
     import datetime
 
     st.title("Component `stpyvista`")
-    placeholder = st.empty()
-    path_to_stl = "../../../onewaywrap/assets/ToolHolder.STL"
-    if os.path.exists(path_to_stl):
+    # placeholder = st.empty()
+    # path_to_stl = "../../../onewaywrap/assets/ToolHolder.STL"
+    # if os.path.exists(path_to_stl):
 
-        ## Initialize pyvista reader and plotter
-        plotter = pv.Plotter(border=True, border_width=1, window_size=[400,400]) 
-        plotter.set_background('#D3EEFF')
+    #     ## Initialize pyvista reader and plotter
+    #     plotter = pv.Plotter(border=True, border_width=1, window_size=[400,400]) 
+    #     plotter.set_background('#D3EEFF')
 
-        ## Color panel
-        color_stl = st.color_picker("Element","#0BD88D")
+    #     ## Color panel
+    #     color_stl = st.color_picker("Element","#0BD88D")
 
-        ## Initialize pyvista reader and plotter
-        reader = pv.STLReader(path_to_stl)
-        mesh = reader.read()
-        plotter.add_mesh(mesh, color=color_stl)
-        out = stpyvista(plotter)
+    #     ## Initialize pyvista reader and plotter
+    #     reader = pv.STLReader(path_to_stl)
+    #     mesh = reader.read()
+    #     plotter.add_mesh(mesh, color=color_stl)
+    #     out = stpyvista(plotter)
 
-        placeholder.markdown(f"{datetime.datetime.now()} :: {out}")
-        print(f"{datetime.datetime.now()} :: {out}")
+    #     placeholder.markdown(f"{datetime.datetime.now()} :: {out}")
+    #     print(f"{datetime.datetime.now()} :: {out}")
 
-        st.header("Hello Again")
-        st.button("Hey")
-    else:
-        st.error("fix path")
+    # " ************* "
+    # st.header("Hello Again")
+    st.button("Hey")
+    placeholder_spheres = st.empty()
 
+    pl = pv.Plotter(window_size=[600,500])
+    pl.set_background('#D3EEFF')
+
+    # lower left, using physically based rendering
+    pl.add_mesh(pv.Sphere(center=(-1, 0, -1)),
+                show_edges=False, pbr=True, color='white', roughness=0.2,
+                metallic=0.5)
+
+    # upper right, matches default pyvista plotting
+    pl.add_mesh(pv.Sphere(center=(1, 0, 1)))
+
+    # Upper left, mesh displayed as points
+    pl.add_mesh(pv.Sphere(center=(-1, 0, 1)),
+                color='k', style='points', point_size=10)
+
+    # mesh in lower right with flat shading
+    pl.add_mesh(pv.Sphere(center=(1, 0, -1)), lighting=False,
+                show_edges=True)
+
+    # show mesh in the center with a red wireframe
+    pl.add_mesh(pv.Sphere(), lighting=True, show_edges=False,
+                color='red', line_width=0.5, style='wireframe',
+                opacity=0.99)
+
+    pl.camera_position = 'xz'
+    
+    out = stpyvista(pl)
+
+    placeholder_spheres.markdown(
+        f"{datetime.datetime.now()} :: {out}")
+    
 
 if __name__ == "__main__":
     main()

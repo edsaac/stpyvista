@@ -4,6 +4,11 @@ from typing import Optional
 import streamlit as st
 import streamlit.components.v1 as components
 
+import pyvista as pv
+pv.set_jupyter_backend('pythreejs')
+
+from io import StringIO
+
 # Tell streamlit that there is a component called stpyvista,
 # and that the code to display that component is in the "frontend" folder
 frontend_dir = (Path(__file__).parent / "frontend").absolute()
@@ -13,26 +18,43 @@ _component_func = components.declare_component(
     path=str(frontend_dir)
 )
 
-
-import pyvista as pv
-import io
-import os
-
-## Using pythreejs as pyvista backend
-pv.set_jupyter_backend('pythreejs')
-pv.global_theme.transparent_background = True
-
-# Create the python function that will be called
-def stpyvista(
-    plotter : pv.Plotter = None,
-    key: Optional[str] = None
-    ) -> float:
+class HTML_stpyvista:
     """
-    Renders a pyvista Plotter object
+    Receives a pyvista Plotter object and builds an HTML model
+    using pythreejs. This takes care of temporal files needed to 
+    dump the generated HTML and store the dimensions to render the 
+    iframe in the frontend
+
+    Usage
+    ----------
+    model = HTML_stpyvista(plotter)
+    
+    plotter: pv.Plotter
+        Plotter to export to html
+    
+    """
+    def __init__(self, plotter:pv.Plotter) -> None:
+        model_html = StringIO()
+        plotter.export_html(model_html, backend='pythreejs')
+        threejs_html = model_html.getvalue()
+        model_html.close()
+        dimensions = plotter.window_size
+
+        self.threejs_html = threejs_html
+        self.window_dimensions = dimensions
+
+# Create the python function that will be called from the front ende
+def stpyvista(
+    input : HTML_stpyvista,
+    horizontal_align : str = "center",
+    key: Optional[str] = None
+) -> None:
+    """
+    Renders a HTML_stpyvista as a threejs model.
     
     Parameters
     ----------
-    plotter: pyvista.Plotter
+    processed: dict
         Plotter to render
     
     key: str|None
@@ -42,26 +64,13 @@ def stpyvista(
     
     Returns
     -------
-    float
+    None
     """
-
-    model_html = io.StringIO()
-    plotter.export_html(model_html, backend='pythreejs')
-    parsed_html = model_html.getvalue()
-    model_html.close()
-    
-    # with open("generated.html",'w') as f:
-    #     f.write(parsed_html)
-
-    window_width, window_height = plotter.window_size
-
-    # parsed2 = parsed_html.splitlines()[10:-1]
-    # parsed3 = "\n".join(parsed2)
-
     component_value = _component_func(
-        threejs_html = parsed_html,
-        width = window_width,
-        height = window_height,
+        threejs_html = input.threejs_html,
+        width = input.window_dimensions[0],
+        height = input.window_dimensions[1],
+        horizontal_align = horizontal_align,
         key = key,
         default = 0
     )
@@ -69,64 +78,48 @@ def stpyvista(
     return component_value
 
 def main():
-    import datetime
 
-    st.title("Component `stpyvista`")
-    placeholder = st.empty()
-    path_to_stl = "../../../onewaywrap/assets/ToolHolder.STL"
-    if os.path.exists(path_to_stl):
+    # Storing the threejs models as a session_state variable
+    # allows to avoid rerendering at each time something changes
+    # in the page
+    if "carburator" not in st.session_state:
+        pl = pv.Plotter(window_size=[400,300])
+        mesh = pv.examples.download_carburator()
+        pl.set_background('white')
+        mesh.decimate(0.5, inplace=True)
+        pl.add_mesh(mesh, color='lightgrey', pbr=True, metallic=0.5)
+        pl.camera.zoom(2.0)
+        st.session_state.carburator = HTML_stpyvista(pl)
 
-        ## Initialize pyvista reader and plotter
-        plotter = pv.Plotter(border=True, border_width=1, window_size=[400,400]) 
-        plotter.set_background('#D3EEFF')
-
-        ## Color panel
-        color_stl = st.color_picker("Element","#0BD88D")
-
-        ## Initialize pyvista reader and plotter
-        reader = pv.STLReader(path_to_stl)
-        mesh = reader.read()
-        plotter.add_mesh(mesh, color=color_stl)
-        out = stpyvista(plotter=plotter)
-
-        placeholder.markdown(f"{datetime.datetime.now()} :: {out}")
-        print(f"{datetime.datetime.now()} :: {out}")
-
-    " ************* "
-    st.header("Hello Again")
-    st.button("Hey")
-    placeholder_spheres = st.empty()
-
-    pl = pv.Plotter(window_size=[600,500])
-    pl.set_background('#D3EEFF')
-
-    # lower left, using physically based rendering
-    pl.add_mesh(pv.Sphere(center=(-1, 0, -1)),
-                show_edges=False, pbr=True, color='white', roughness=0.2,
-                metallic=0.5)
-
-    # upper right, matches default pyvista plotting
-    pl.add_mesh(pv.Sphere(center=(1, 0, 1)))
-
-    # Upper left, mesh displayed as points
-    pl.add_mesh(pv.Sphere(center=(-1, 0, 1)),
-                color='k', style='points', point_size=10)
-
-    # mesh in lower right with flat shading
-    pl.add_mesh(pv.Sphere(center=(1, 0, -1)), lighting=False,
-                show_edges=True)
-
-    # show mesh in the center with a red wireframe
-    pl.add_mesh(pv.Sphere(), lighting=True, show_edges=False,
-                color='red', line_width=0.5, style='wireframe',
-                opacity=0.99)
-
-    pl.camera_position = 'xz'
+    if "sphere" not in st.session_state:
+        pl = pv.Plotter(window_size=[300,200])
+        pl.set_background('#D3EEFF')
+        pl.add_mesh(pv.Sphere(center=(1, 0, 1)))
+        st.session_state.sphere = HTML_stpyvista(pl)
     
-    out = stpyvista(pl)
+    sphere = st.session_state.sphere
+    carburator = st.session_state.carburator
 
-    placeholder_spheres.markdown(
-        f"{datetime.datetime.now()} :: {out}")
+    cols = st.columns([1,1.5])
+    
+    with cols[0]: 
+        st.title("Component `stpyvista`")
+        st.write("Show [**pyvista**](https://www.pyvista.org/) 3D visualizations in streamlit")
+    with cols[1]: stpyvista(carburator)
+
+    st.header("Different horizontal alignment")
+    
+    with st.echo():
+        # The default is centered
+        stpyvista(sphere)
+
+    with st.echo():
+        # It can also go to the left
+        stpyvista(sphere, horizontal_align="left")
+
+    with st.echo():
+        # Or to the right
+        stpyvista(sphere, horizontal_align="right")
     
 if __name__ == "__main__":
     main()

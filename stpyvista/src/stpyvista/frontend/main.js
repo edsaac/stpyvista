@@ -18,32 +18,27 @@ function onRender(event) {
   if (!window.rendered) {
 
     // You most likely want to get the data passed in like this
-    const {threejs_html, width, height, key} = event.detail.args;
-    
-    const div_all = document.getElementById("stPyVista");
-    const st_iframe = document.getElementById("stPyVistaFrame");
-    const div_click = document.getElementById("clickable") 
-    
-    // Streamlit.setFrameHeight(height + 40);
+    const {threejs_html, width, height, horizontal_align, key} = event.detail.args;
+    const stpyvistadiv = document.getElementById("stpyvistadiv");
+    const stpyvistaframe = document.getElementById("stpyvistaframe");
 
-    // div_all.innerHTML = value;
-    // div_all.style.height = "500px";
-
-    // Pass the threejs HTML to the iframe
-    st_iframe.srcdoc = threejs_html;
+    // Style the wrapping div for the iframe
+    stpyvistadiv.style.width = width + 15;
+    stpyvistadiv.style.textAlign = horizontal_align;
     
-    // Overwrite default iframe dimensions
-    st_iframe.width = width + 20;
-    st_iframe.height = height + 25;
+    // Overwrite default iframe dimensions and put model in the iframe
+    // just CSS styling does not apply to the iframe
+    stpyvistaframe.srcdoc = threejs_html;
+    stpyvistaframe.width = width + 15;
+    stpyvistaframe.height = height + 15;
+    stpyvistaframe.scrolling = "no";
+    stpyvistaframe.style.border = "none";
 
-    // Test sending back a value
-    // div_all.addEventListener('click', event => sendValue(666999), false);
-    div_click.addEventListener('click', event => sendValue(888), false);
+    // Send some value to python 
+    // Not very useful at the moment but keep it for later
+    // stpyvistadiv.addEventListener('click', event => sendValue(50), false);
     
-    // div_all.addEventListener('pointer', event => changeColor("red"), false);
-
-    // Remove default iframe border. A border can be set from the pv.Plotter
-    st_iframe.style.border = "none";
+    Streamlit.setFrameHeight(height+40)
     window.rendered = true;
   }
 }
@@ -55,4 +50,4 @@ Streamlit.events.addEventListener(Streamlit.RENDER_EVENT, onRender)
 Streamlit.setComponentReady()
 
 // Render with the correct height, if this is a fixed-height component
-Streamlit.setFrameHeight(600)
+Streamlit.setFrameHeight()

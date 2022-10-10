@@ -10,7 +10,7 @@ setuptools.setup(
     version="0.1.0",
     author="Edwin S",
     author_email="esaavedrac@u.northwestern.edu",
-    description="Streamlit component that allows you to visualize pyvista renderings",
+    description="Streamlit component that allows you to visualize pyvista 3D visualizations",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(where="src"),

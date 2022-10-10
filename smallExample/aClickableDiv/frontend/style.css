@@ -1,9 +1,0 @@
-#clickablediv{
-    text-align: center;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    cursor: grab;
-    width: 500px;
-    background-color: rgba(250, 128, 114, 0.151);
-}

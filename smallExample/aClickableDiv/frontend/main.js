@@ -7,6 +7,10 @@ function sendValue(value) {
   Streamlit.setComponentValue(value)
 }
 
+function changeColor(color){
+  document.getElementById("clickablediv").style.backgroundColor = color;
+}
+
 /**
  * The component's render function. This will be called immediately after
  * the component is initially loaded, and then again every time the
@@ -18,34 +22,30 @@ function onRender(event) {
   if (!window.rendered) {
 
     // You most likely want to get the data passed in like this
-    const {threejs_html, width, height, key} = event.detail.args;
+    const {message, key} = event.detail.args;
+    const my_div = document.getElementById("clickablediv");
     
-    const div_all = document.getElementById("stPyVista");
-    const st_iframe = document.getElementById("stPyVistaFrame");
-    const div_click = document.getElementById("clickable") 
-    
-    // Streamlit.setFrameHeight(height + 40);
+    Streamlit.setFrameHeight(50)
 
-    // div_all.innerHTML = value;
-    // div_all.style.height = "500px";
-
-    // Pass the threejs HTML to the iframe
-    st_iframe.srcdoc = threejs_html;
-    
     // Overwrite default iframe dimensions
-    st_iframe.width = width + 20;
-    st_iframe.height = height + 25;
-
-    // Test sending back a value
-    // div_all.addEventListener('click', event => sendValue(666999), false);
-    div_click.addEventListener('click', event => sendValue(888), false);
-    
-    // div_all.addEventListener('pointer', event => changeColor("red"), false);
+    my_div.style.height = "200px";
 
     // Remove default iframe border. A border can be set from the pv.Plotter
-    st_iframe.style.border = "none";
+    my_div.style.border = "solid 10px blue";
+    my_div.innerHTML = message;
+    
+    // Do stuff on click
+    my_div.addEventListener('pointerover', event => changeColor("rgba(250, 0, 114, 0.151)"), false);
+    
+    // Send some value to python 
+    my_div.addEventListener('click', event => sendValue(50), false);
+    
     window.rendered = true;
   }
+  
+  // You'll most likely want to pass some data back to Python like this   
+  // document.getElementById("stPyVistaFrame").addEventListener('pointerover', event => changeColor("red"), false);
+  // Streamlit.setComponentValue("HiOut")
 }
 
 // Render the component whenever python send a "render event"
@@ -55,4 +55,4 @@ Streamlit.events.addEventListener(Streamlit.RENDER_EVENT, onRender)
 Streamlit.setComponentReady()
 
 // Render with the correct height, if this is a fixed-height component
-Streamlit.setFrameHeight(600)
+Streamlit.setFrameHeight()

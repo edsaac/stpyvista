@@ -1,18 +1,8 @@
-from math import degrees
 from pathlib import Path
-from turtle import window_height, window_width
 from typing import Optional
 
 import streamlit as st
 import streamlit.components.v1 as components
-
-import pyvista as pv
-import io
-import os
-
-## Using pythreejs as pyvista backend
-pv.set_jupyter_backend('pythreejs')
-pv.global_theme.transparent_background = True
 
 # Tell streamlit that there is a component called stpyvista,
 # and that the code to display that component is in the "frontend" folder
@@ -23,11 +13,20 @@ _component_func = components.declare_component(
     path=str(frontend_dir)
 )
 
+
+import pyvista as pv
+import io
+import os
+
+## Using pythreejs as pyvista backend
+pv.set_jupyter_backend('pythreejs')
+pv.global_theme.transparent_background = True
+
 # Create the python function that will be called
 def stpyvista(
-    plotter : pv.Plotter,
-    key: Optional[str] = None,
-) -> float:
+    plotter : pv.Plotter = None,
+    key: Optional[str] = None
+    ) -> float:
     """
     Renders a pyvista Plotter object
     
@@ -56,8 +55,11 @@ def stpyvista(
 
     window_width, window_height = plotter.window_size
 
+    # parsed2 = parsed_html.splitlines()[10:-1]
+    # parsed3 = "\n".join(parsed2)
+
     component_value = _component_func(
-        value = parsed_html,
+        threejs_html = parsed_html,
         width = window_width,
         height = window_height,
         key = key,
@@ -70,28 +72,28 @@ def main():
     import datetime
 
     st.title("Component `stpyvista`")
-    # placeholder = st.empty()
-    # path_to_stl = "../../../onewaywrap/assets/ToolHolder.STL"
-    # if os.path.exists(path_to_stl):
+    placeholder = st.empty()
+    path_to_stl = "../../../onewaywrap/assets/ToolHolder.STL"
+    if os.path.exists(path_to_stl):
 
-    #     ## Initialize pyvista reader and plotter
-    #     plotter = pv.Plotter(border=True, border_width=1, window_size=[400,400]) 
-    #     plotter.set_background('#D3EEFF')
+        ## Initialize pyvista reader and plotter
+        plotter = pv.Plotter(border=True, border_width=1, window_size=[400,400]) 
+        plotter.set_background('#D3EEFF')
 
-    #     ## Color panel
-    #     color_stl = st.color_picker("Element","#0BD88D")
+        ## Color panel
+        color_stl = st.color_picker("Element","#0BD88D")
 
-    #     ## Initialize pyvista reader and plotter
-    #     reader = pv.STLReader(path_to_stl)
-    #     mesh = reader.read()
-    #     plotter.add_mesh(mesh, color=color_stl)
-    #     out = stpyvista(plotter)
+        ## Initialize pyvista reader and plotter
+        reader = pv.STLReader(path_to_stl)
+        mesh = reader.read()
+        plotter.add_mesh(mesh, color=color_stl)
+        out = stpyvista(plotter=plotter)
 
-    #     placeholder.markdown(f"{datetime.datetime.now()} :: {out}")
-    #     print(f"{datetime.datetime.now()} :: {out}")
+        placeholder.markdown(f"{datetime.datetime.now()} :: {out}")
+        print(f"{datetime.datetime.now()} :: {out}")
 
-    # " ************* "
-    # st.header("Hello Again")
+    " ************* "
+    st.header("Hello Again")
     st.button("Hey")
     placeholder_spheres = st.empty()
 
@@ -126,6 +128,5 @@ def main():
     placeholder_spheres.markdown(
         f"{datetime.datetime.now()} :: {out}")
     
-
 if __name__ == "__main__":
     main()

@@ -1,0 +1,8 @@
+#stpyvistadiv{
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    background-color: rgba(255, 0, 0, 0);
+}

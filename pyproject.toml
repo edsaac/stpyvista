@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0","streamlit>=1.12","pyvista", "pythreejs==2.3.0", "ipywidgets==7.7.1", "ipython==8.4.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stpyvista"
+version = "0.0.1"
+authors = [
+  { name="Edwin S", email="esaavedrac@u.northwestern.edu" },
+]
+description = "Streamlit component that allows you to show PyVista 3d visualizations"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/edsaac/streamlit-PyVista-viewer"
+"Bug Tracker" = "https://github.com/edsaac/streamlit-PyVista-viewer/issues"

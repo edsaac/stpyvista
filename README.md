@@ -62,10 +62,6 @@ plotter.background_color = 'white'
 stpyvista(plotter)
 ```
 
-> Result: 
->
-> 
-
 ****
 
 #### Also check:

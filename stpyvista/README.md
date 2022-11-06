@@ -44,6 +44,14 @@ stpyvista(plotter, key="pv_cube")
 
 <details>
 <summary>
+v 0.0.5
+</summary>
+- Add a caption like a st.image()
+- Show fullscreen option
+<details>
+
+<details>
+<summary>
 v 0.0.4
 </summary>
 - Pass a key to the stpyvista component to avoid re-rendering at every streamlit interaction

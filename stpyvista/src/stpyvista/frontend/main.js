@@ -18,9 +18,10 @@ function onRender(event) {
   if (!window.rendered) {
 
     // You most likely want to get the data passed in like this
-    const {threejs_html, width, height, horizontal_align, key} = event.detail.args;
+    const {threejs_html, width, height, horizontal_align, caption, key} = event.detail.args;
     const stpyvistadiv = document.getElementById("stpyvistadiv");
     const stpyvistaframe = document.getElementById("stpyvistaframe");
+    const stpyvistacaption = document.getElementById("stpyvistacaption");
 
     // Style the wrapping div for the iframe
     stpyvistadiv.style.width = width + 15;
@@ -33,12 +34,14 @@ function onRender(event) {
     stpyvistaframe.height = height + 15;
     stpyvistaframe.scrolling = "no";
     stpyvistaframe.style.border = "none";
+    if (caption){
+    stpyvistacaption.innerText = caption;}
 
     // Send some value to python 
     // Not very useful at the moment but keep it for later
     // stpyvistadiv.addEventListener('click', event => sendValue(50), false);
     
-    Streamlit.setFrameHeight(height+40)
+    Streamlit.setFrameHeight(height+80)
     window.rendered = true;
   }
 }

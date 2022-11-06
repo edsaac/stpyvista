@@ -55,6 +55,7 @@ class HTML_stpyvista:
 def stpyvista(
     input : HTML_stpyvista,
     horizontal_align : str = "center",
+    caption : str = None,
     key: Optional[str] = None
 ) -> None:
     """
@@ -87,6 +88,7 @@ def stpyvista(
         width = input.window_dimensions[0],
         height = input.window_dimensions[1],
         horizontal_align = horizontal_align,
+        caption = caption,
         key = key,
         default = 0
     )

@@ -2,10 +2,13 @@
 
 <p align=center>💾 <strong>Source code repository</strong> 💾</p>
 
-<a href="https://github.com/edsaac/streamlit-PyVista-viewer"><img alt="Github Repo" src="https://img.shields.io/static/v1?label=&message=Check repository&color=black&logo=github"></a> [![PyPi version](https://badgen.net/pypi/v/stpyvista/)](https://pypi.org/project/stpyvista/) <a href="https://github.com/edsaac/stpyvista-tests"><img alt="Github tests repo" src="https://img.shields.io/static/v1?label=&message=Check snippets&color=black&logo=github"></a>
+<center>
+<a href="stpyvista.streamlit.app"><img alt="Streamlit Cloud" src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg"></a>
+
+<a href="https://github.com/edsaac/streamlit-PyVista-viewer"><img alt="Github Repo" src="https://img.shields.io/static/v1?label=&message=Source code&color=black&logo=github"></a> [![PyPi version](https://badgen.net/pypi/v/stpyvista/)](https://pypi.org/project/stpyvista/) <a href="https://github.com/edsaac/stpyvista-tests"><img alt="Github tests repo" src="https://img.shields.io/static/v1?label=&message=Check examples&color=black&logo=github"></a>
+</center>
 
 ![howto-stpyvista|600x340](https://aws1.discourse-cdn.com/business7/uploads/streamlit/original/3X/f/d/fdcb8cb7be524e4c8d1e45e9371cc6b17a732b24.gif)
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://edsaac-stpyvista-tests-howtouse-stpyvista-2p9u5r.streamlitapp.com/)
 
 This is a simple component that takes a PyVista plotter object and shows it on Streamlit as an interactive element (as in it can be zoomed in/out, moved and rotated, but the visualization state is not returned). It uses PyVista's [pythreejs backend](https://docs.pyvista.org/user-guide/jupyter/pythreejs.html) and it basically takes the plotter, [exports it to HTML](https://docs.pyvista.org/api/plotting/_autosummary/pyvista.Plotter.export_html.html) and displays that within an iframe.
 
@@ -15,13 +18,15 @@ This is a simple component that takes a PyVista plotter object and shows it on S
 pip install stpyvista
 ```
 
-## Demos
+## Demos 
 
-📤 Display your own STL file on Streamlit | [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://edsaac-stpyvista-tests-uploadstl-stpyvista-pqlypk.streamlitapp.com/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://stpyvista.streamlit.app/)
+
+📤 Display your own STL file on Streamlit
 
 ![textures-stpyvista|508x500, 85%](https://aws1.discourse-cdn.com/business7/uploads/streamlit/original/3X/e/6/e64c7054ffadafee7c8ad66e5a2dfc5b0f702cbd.gif)
 
-🍞 Physically Based Rendering (PBR) | [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://edsaac-stpyvista-tests-textures-stpyvista-j3ovua.streamlitapp.com/)
+🍞 Physically Based Rendering (PBR) 
 
 ![textures-stpyvista|508x500, 85%](https://aws1.discourse-cdn.com/business7/uploads/streamlit/original/3X/8/d/8dd4a20952a798c917180ec187edaac77a766cee.gif)
 
@@ -33,7 +38,6 @@ pip install stpyvista
 import pyvista as pv
 import streamlit as st
 from stpyvista import stpyvista, HTML_stpyvista
-import numpy as np
 
 # ipythreejs does not support scalar bars :(
 pv.global_theme.show_scalar_bar = False
@@ -41,30 +45,25 @@ pv.global_theme.show_scalar_bar = False
 st.title("A cube")
 st.info("""Code adapted from https://docs.pyvista.org/user-guide/jupyter/pythreejs.html#scalars-support""")
 
-# Storing the threejs models as a session_state variable allows
-# to avoid re-rendering at each time something changes in the page
+## Initialize a plotter object
+plotter = pv.Plotter(window_size=[400,400])
 
-if "model" not in st.session_state:    
-    ## Initialize a plotter object
-    plotter = pv.Plotter(window_size=[400,400])
+## Create a mesh with a cube 
+mesh = pv.Cube(center=(0,0,0))
 
-    ## Create a mesh with a cube 
-    mesh = pv.Cube(center=(0,0,0))
+## Add some scalar field associated to the mesh
+mesh['myscalar'] = mesh.points[:, 2]*mesh.points[:, 0]
 
-    ## Add some scalar field associated to the mesh
-    mesh['myscalar'] = mesh.points[:, 2]*mesh.points[:, 0]
+## Add mesh to the plotter
+plotter.add_mesh(mesh, scalars='myscalar', cmap='bwr', line_width=1)
 
-    ## Add mesh to the plotter
-    plotter.add_mesh(mesh, scalars='myscalar', cmap='bwr', line_width=1)
+## Final touches
+plotter.view_isometric()
+plotter.background_color = 'white'
 
-    ## Final touches
-    plotter.view_isometric()
-    plotter.background_color = 'white'
-    
-    ## Export and save to st.session_state
-    st.session_state.model = HTML_stpyvista(plotter)
+## Send to streamlit
+stpyvista(plotter, key="pv_cube")
 
-stpyvista(st.session_state.model)
 ```
 > Result: 
 >
@@ -75,4 +74,3 @@ stpyvista(st.session_state.model)
 #### Also check:
 * The PyVista project at [https://www.pyvista.org/](https://www.pyvista.org/)
 * @blackary['s blog post](https://blog.streamlit.io/how-to-build-your-own-streamlit-component/) on how to build a custom component
-* [Post](https://discuss.streamlit.io/t/stpyvista-show-pyvista-3d-visualizations-in-streamlit/31802) on streamlit discuss forum.

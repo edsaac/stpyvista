@@ -10,6 +10,7 @@ import pyvista as pv
 pv.set_jupyter_backend('pythreejs')
 
 from io import StringIO
+from ipywidgets.embed import embed_minimal_html
 
 # Tell streamlit that there is a component called stpyvista,
 # and that the code to display that component is in the "frontend" folder
@@ -19,6 +20,10 @@ _component_func = components.declare_component(
 	"stpyvista", 
     path=str(frontend_dir)
 )
+
+class stpyvistaTypeError(TypeError):
+    """ Unsupported format for input? """
+    pass
 
 class HTML_stpyvista:
     """
@@ -37,7 +42,8 @@ class HTML_stpyvista:
     """
     def __init__(self, plotter:pv.Plotter) -> None:
         model_html = StringIO()
-        plotter.export_html(model_html, backend='pythreejs')
+        pv_to_tjs = plotter.to_pythreejs()
+        embed_minimal_html(model_html, pv_to_tjs, title="🧊-stpyvista")
         threejs_html = model_html.getvalue()
         model_html.close()
         dimensions = plotter.window_size
@@ -45,7 +51,7 @@ class HTML_stpyvista:
         self.threejs_html = threejs_html
         self.window_dimensions = dimensions
 
-# Create the python function that will be called from the front ende
+# Create the python function that will be called from the front end
 def stpyvista(
     input : HTML_stpyvista,
     horizontal_align : str = "center",
@@ -68,6 +74,14 @@ def stpyvista(
     -------
     None
     """
+
+    if isinstance(input, pv.Plotter):
+        input = HTML_stpyvista(input)
+    elif isinstance(input, HTML_stpyvista):
+        pass
+    else:
+        raise(stpyvistaTypeError)
+
     component_value = _component_func(
         threejs_html = input.threejs_html,
         width = input.window_dimensions[0],
@@ -81,9 +95,6 @@ def stpyvista(
 
 def main():
 
-    # Storing the threejs models as a session_state variable
-    # allows to avoid rerendering at each time something changes
-    # in the page
     if "carburator" not in st.session_state:
         pl = pv.Plotter(window_size=[400,300])
         mesh = pv.examples.download_carburator()

@@ -10,6 +10,8 @@ pip install stpyvista
 
 ## Usage instructions
 
+<a href="https://stpyvista.streamlit.app"><img alt="Streamlit Cloud" src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg"></a>
+
 ```python
 import streamlit as st
 import pyvista as pv

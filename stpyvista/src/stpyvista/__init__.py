@@ -95,9 +95,6 @@ def stpyvista(
 
 def main():
 
-    # Storing the threejs models as a session_state variable
-    # allows to avoid rerendering at each time something changes
-    # in the page
     if "carburator" not in st.session_state:
         pl = pv.Plotter(window_size=[400,300])
         mesh = pv.examples.download_carburator()

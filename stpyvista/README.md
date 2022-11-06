@@ -1,6 +1,6 @@
-# stpyvista
+# 🧊 `stpyvista`
 
-Streamlit component that allows you to show PyVista 3d visualizations
+Streamlit component to show PyVista 3D visualizations
 
 ## Installation instructions 
 
@@ -11,18 +11,40 @@ pip install stpyvista
 ## Usage instructions
 
 ```python
-import pyvista as pv
 import streamlit as st
-from stpyvista import stpyvista, HTML_stpyvista
+import pyvista as pv
+from stpyvista import stpyvista
 
-plotter = pv.Plotter()
+# ipythreejs does not support scalar bars :(
+pv.global_theme.show_scalar_bar = False 
 
-# Store the 3D visualization in a sessions state variable
-# to avoid re-rendering each time streamlit reruns the script
+## Initialize a plotter object
+plotter = pv.Plotter(window_size=[400,400])
 
-if "model" not in st.session.state:
-    plotter = pv.Plotter()
-    st.session.state.model = HTML_stpyvista(plotter)
+## Create a mesh with a cube 
+mesh = pv.Cube(center=(0,0,0))
 
-stpyvista(st.session.state.model)
+## Add some scalar field associated to the mesh
+mesh['myscalar'] = mesh.points[:, 2]*mesh.points[:, 0]
+
+## Add mesh to the plotter
+plotter.add_mesh(mesh, scalars='myscalar', cmap='bwr', line_width=1)
+
+## Final touches
+plotter.view_isometric()
+plotter.background_color = 'white'
+
+## Pass a key to avoid re-rendering at each time something changes in the page
+stpyvista(plotter, key="pv_cube")
 ```
+
+## Log changes
+
+<details>
+<summary>
+v 0.0.4
+</summary>
+- Pass a key to the stpyvista component to avoid re-rendering at every streamlit interaction
+- Using ipywidgets `embed_minimal_html` directly instead of pyvista `export_html`. 
+- Update examples as a multipage streamlit app
+<details>

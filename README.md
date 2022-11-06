@@ -37,7 +37,7 @@ pip install stpyvista
 ```python
 import pyvista as pv
 import streamlit as st
-from stpyvista import stpyvista, HTML_stpyvista
+from stpyvista import stpyvista
 
 # ipythreejs does not support scalar bars :(
 pv.global_theme.show_scalar_bar = False

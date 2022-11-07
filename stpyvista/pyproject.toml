@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stpyvista"
-version = "0.0.4"
+version = "0.0.5"
 authors = [
   { name="Edwin S", email="esaavedrac@u.northwestern.edu" },
 ]

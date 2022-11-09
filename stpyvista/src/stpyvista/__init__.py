@@ -23,7 +23,7 @@ _component_func = components.declare_component(
     path=str(frontend_dir)
 )
 
-def get_meshes(renderer: tjs.Renderer) -> list[tjs.Mesh]:
+def get_Meshes(renderer: tjs.Renderer) -> list[tjs.Mesh]:
     return [child for child in renderer._trait_values["scene"].children if isinstance(child, tjs.Mesh)]
 
 def spin_element_on_axis(renderer: tjs.Renderer, axis:str = "z", revolution_time:float = 4.0):
@@ -31,12 +31,16 @@ def spin_element_on_axis(renderer: tjs.Renderer, axis:str = "z", revolution_time
     ## Makes a full spin in a second
     spin_track = tjs.NumberKeyframeTrack(name=f'.rotation[{axis}]', times=[0, revolution_time], values=[0, 6.28])
     spin_clip = tjs.AnimationClip(tracks=[spin_track])
-
+    
     ## Animate all meshes in scene
-    spin_action = list()
-    for mesh in get_meshes(renderer):
-        spin_action.append(tjs.AnimationAction(tjs.AnimationMixer(mesh), spin_clip, mesh))
+    ## This adds a separate control to all the meshes 
+    ## Need to implement this as a tjs.AnimationObjectGroup in the AnimationMixer, 
+    ## but that is not implemented pythreejs: https://github.com/jupyter-widgets/pythreejs/issues/372
+    # spin_action = [tjs.AnimationAction(tjs.AnimationMixer(mesh), spin_clip, mesh) for mesh in get_Meshes(renderer)]
 
+    # This adds controls for only the firts mesh in the plotter
+    mesh = get_Meshes(renderer)[0]
+    spin_action = [tjs.AnimationAction(tjs.AnimationMixer(mesh), spin_clip, mesh)]
     return spin_action
 
 class stpyvistaTypeError(TypeError):
@@ -78,12 +82,20 @@ class HTML_stpyvista:
         else:
             pass
         
-        ## Transparent background
+        # Build transparent background
+        ## Remove background
         pv_to_tjs._trait_values["scene"].background = None
+        
+        ## Support transparency
         pv_to_tjs._alpha = True
+
+        ## Retrieve intended color from pv.Plotter
         pv_to_tjs.clearColor = plotter.background_color.hex_rgb
+        
+        ## Assign alpha
         pv_to_tjs.clearOpacity = opacity_background
 
+        # Create HTML file
         embed_minimal_html(model_html, [pv_to_tjs, *animations], title="🧊-stpyvista")
         threejs_html = model_html.getvalue()
         model_html.close()

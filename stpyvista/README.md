@@ -44,9 +44,17 @@ stpyvista(plotter, key="pv_cube")
 
 <details>
 <summary>
+v 0.0.5
+</summary>
+- Support transparent backgrounds to blend with streamlit's web app theme.
+- Add a control to spin along a certain axis the first mesh passed to the plotter.
+</details>
+
+<details>
+<summary>
 v 0.0.4
 </summary>
 - Pass a key to the stpyvista component to avoid re-rendering at every streamlit interaction
 - Using ipywidgets `embed_minimal_html` directly instead of pyvista `export_html`. 
 - Update examples as a multipage streamlit app
-<details>
+</details>

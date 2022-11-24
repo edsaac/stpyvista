@@ -17,7 +17,7 @@ import streamlit as st
 import pyvista as pv
 from stpyvista import stpyvista
 
-# ipythreejs does not support scalar bars :(
+# pythreejs does not support scalar bars :(
 pv.global_theme.show_scalar_bar = False 
 
 ## Initialize a plotter object

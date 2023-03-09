@@ -18,7 +18,7 @@ function onRender(event) {
   if (!window.rendered) {
 
     // You most likely want to get the data passed in like this
-    const {threejs_html, width, height, horizontal_align, has_controls, key} = event.detail.args;
+    const {panel_html, width, height, horizontal_align, key} = event.detail.args;
     const stpyvistadiv = document.getElementById("stpyvistadiv");
     const stpyvistaframe = document.getElementById("stpyvistaframe");
 
@@ -28,27 +28,22 @@ function onRender(event) {
     
     // Overwrite default iframe dimensions and put model in the iframe
     // just CSS styling does not apply to the iframe
-    stpyvistaframe.srcdoc = threejs_html;
+    stpyvistaframe.srcdoc = panel_html;
     stpyvistaframe.width = width + 15;
     console.log("WIDTH", width)
-    console.log("CONTROLS", has_controls)
 
-    if (has_controls > 0) {
-      stpyvistaframe.height = height + 60;  
-      Streamlit.setFrameHeight(height + 95)
-    } else {
-      stpyvistaframe.height = height + 15;
-      Streamlit.setFrameHeight(height + 40)
-    }
-    
+    stpyvistaframe.height = height + 15;
+    Streamlit.setFrameHeight(height + 40)
+    console.log("HEIGHT", width)
     stpyvistaframe.scrolling = "no";
-    stpyvistaframe.style.border = "none";
-
+    stpyvistaframe.style.border = "2px red";
+    
     // Send some value to python 
     // Not very useful at the moment but keep it for later
     // stpyvistadiv.addEventListener('click', event => sendValue(50), false);
-
+    
     window.rendered = true;
+  
   }
 }
 

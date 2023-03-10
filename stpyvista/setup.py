@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setuptools.setup(
     name="stpyvista",
-    version="0.0.5",
+    version="0.0.6",
     author="Edwin S",
     author_email="esaavedrac@u.northwestern.edu",
     description="Streamlit component that allows you to visualize pyvista 3D visualizations",
@@ -17,6 +17,6 @@ setuptools.setup(
     package_data={'stpyvista': ['frontend/*']},
     include_package_data=True,
     classifiers=[],
-    python_requires=">=3.7",
-    install_requires=["streamlit>=1.2", "jinja2"],
+    python_requires=">=3.8",
+    install_requires=["streamlit>=1.18", "jinja2"],
 )

@@ -46,6 +46,13 @@ stpyvista(plotter, key="pv_cube")
 <summary>
 v 0.0.5
 </summary>
+- Replaced pythreejs backend for panel backend [but should go to twine]
+</details>
+
+<details>
+<summary>
+v 0.0.5
+</summary>
 - Support transparent backgrounds to blend with streamlit's web app theme.
 - Add a control to spin along a certain axis the first mesh passed to the plotter.
 </details>

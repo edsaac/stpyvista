@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stpyvista"
-version = "0.0.5"
+version = "0.0.6"
 authors = [
   { name="Edwin S", email="esaavedrac@u.northwestern.edu" },
 ]
@@ -20,9 +20,9 @@ classifiers = [
 dependencies = [
     "streamlit",
     "pyvista",
-    "pythreejs",
-    "ipywidgets==7.7.1",
-    "ipython==8.4.0"
+    "bokeh",
+    "panel",
+    "ipython"
 ]
 
 [project.urls]

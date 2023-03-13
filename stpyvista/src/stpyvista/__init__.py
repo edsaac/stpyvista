@@ -82,14 +82,13 @@ def stpyvista(
         
         # Create HTML file
         with NamedTemporaryFile(mode='a+', suffix='.html') as model_html:
-            print(model_html.name)
             geo_pan_pv.save(model_html.name, resources=INLINE)
             panel_html = model_html.read()
 
         component_value = _component_func(
             panel_html = panel_html,
             width = width,
-            height = height,
+            height = height+100,
             horizontal_align = horizontal_align,
             key = key,
             default = 0)

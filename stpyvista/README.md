@@ -17,7 +17,7 @@ import streamlit as st
 import pyvista as pv
 from stpyvista import stpyvista
 
-# ipythreejs does not support scalar bars :(
+# pythreejs does not support scalar bars :(
 pv.global_theme.show_scalar_bar = False 
 
 ## Initialize a plotter object
@@ -41,6 +41,13 @@ stpyvista(plotter, key="pv_cube")
 ```
 
 ## Log changes
+
+<details>
+<summary>
+v 0.0.6
+</summary>
+- Replaced pythreejs backend for panel backend. This is a temporary solution as pyvista will remove panel support in favor of trame.
+</details>
 
 <details>
 <summary>

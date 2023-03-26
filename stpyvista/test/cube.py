@@ -4,7 +4,6 @@ from stpyvista import stpyvista
 
 st.set_page_config(page_icon="🧊", layout="wide")
 st.title("🧊 `stpyvista`")
-st.sidebar.header("Show PyVista 3D visualizations in Streamlit")
 
 # pythreejs does not support scalar bars :(
 pv.global_theme.show_scalar_bar = False 
@@ -23,7 +22,9 @@ plotter.add_mesh(mesh, scalars='myscalar', cmap='bwr', line_width=1)
 
 ## Final touches
 plotter.view_isometric()
-plotter.background_color = 'white'
+plotter.background_color = 'gray'
 
 ## Pass a key to avoid re-rendering at each time something changes in the page
 stpyvista(plotter, key="pv_cube")
+
+"****************"

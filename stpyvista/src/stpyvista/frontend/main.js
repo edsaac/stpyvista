@@ -30,13 +30,12 @@ function onRender(event) {
     // just CSS styling does not apply to the iframe
     stpyvistaframe.srcdoc = panel_html;
     stpyvistaframe.width = width + 15;
-    console.log("WIDTH", width)
 
     stpyvistaframe.height = height + 15;
-    Streamlit.setFrameHeight(height + 40)
-    console.log("HEIGHT", width)
     stpyvistaframe.scrolling = "no";
     stpyvistaframe.style.border = "2px red";
+    
+    Streamlit.setFrameHeight(height + 10)
     
     // Send some value to python 
     // Not very useful at the moment but keep it for later

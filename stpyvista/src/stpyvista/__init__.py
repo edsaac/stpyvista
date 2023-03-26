@@ -24,26 +24,6 @@ _component_func = components.declare_component(
     path=str(frontend_dir)
 )
 
-# def get_Meshes(renderer: tjs.Renderer) -> list[tjs.Mesh]:
-#     return [child for child in renderer._trait_values["scene"].children if isinstance(child, tjs.Mesh)]
-
-# def spin_element_on_axis(renderer: tjs.Renderer, axis:str = "z", revolution_time:float = 4.0):
-    
-#     ## Makes a full spin in a second
-#     spin_track = tjs.NumberKeyframeTrack(name=f'.rotation[{axis}]', times=[0, revolution_time], values=[0, 6.28])
-#     spin_clip = tjs.AnimationClip(tracks=[spin_track])
-    
-#     ## Animate all meshes in scene
-#     ## This adds a separate control to all the meshes 
-#     ## Need to implement this as a tjs.AnimationObjectGroup in the AnimationMixer, 
-#     ## but that is not implemented pythreejs: https://github.com/jupyter-widgets/pythreejs/issues/372
-#     # spin_action = [tjs.AnimationAction(tjs.AnimationMixer(mesh), spin_clip, mesh) for mesh in get_Meshes(renderer)]
-
-#     # This adds controls for only the firts mesh in the plotter
-#     mesh = get_Meshes(renderer)[0]
-#     spin_action = [tjs.AnimationAction(tjs.AnimationMixer(mesh), spin_clip, mesh)]
-#     return spin_action
-
 class stpyvistaTypeError(TypeError):
     """ Unsupported format for input? """
     pass
@@ -52,7 +32,8 @@ class stpyvistaTypeError(TypeError):
 def stpyvista(
     plotter : pv.Plotter,
     horizontal_align : str = "center",
-    key: Optional[str] = None
+    key: Optional[str] = None,
+    orientation_widget: bool = True
     ) -> None:
 
     """
@@ -78,7 +59,11 @@ def stpyvista(
 
     if isinstance(plotter, pv.Plotter): 
         width, height = plotter.window_size
-        geo_pan_pv = pn.panel(plotter.ren_win, width=width, height=height) 
+        geo_pan_pv = pn.panel(
+            plotter.ren_win, 
+            width = width, 
+            height = height,
+            orientation_widget = orientation_widget) 
         
         # Create HTML file
         with NamedTemporaryFile(mode='a+', suffix='.html') as model_html:
@@ -88,7 +73,7 @@ def stpyvista(
         component_value = _component_func(
             panel_html = panel_html,
             width = width,
-            height = height+100,
+            height = height,
             horizontal_align = horizontal_align,
             key = key,
             default = 0)

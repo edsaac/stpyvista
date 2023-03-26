@@ -26,10 +26,6 @@ pip install stpyvista
 
 ![textures-stpyvista|508x500, 85%](https://aws1.discourse-cdn.com/business7/uploads/streamlit/original/3X/e/6/e64c7054ffadafee7c8ad66e5a2dfc5b0f702cbd.gif)
 
-🍞 Physically Based Rendering (PBR) 
-
-![textures-stpyvista|508x500, 85%](https://aws1.discourse-cdn.com/business7/uploads/streamlit/original/3X/8/d/8dd4a20952a798c917180ec187edaac77a766cee.gif)
-
 ******
 
 ## Usage example:

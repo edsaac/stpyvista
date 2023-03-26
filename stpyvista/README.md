@@ -44,9 +44,9 @@ stpyvista(plotter, key="pv_cube")
 
 <details>
 <summary>
-v 0.0.5
+v 0.0.6
 </summary>
-- Replaced pythreejs backend for panel backend [but should go to twine]
+- Replaced pythreejs backend for panel backend. This is a temporary solution as pyvista will remove panel support in favor of trame.
 </details>
 
 <details>

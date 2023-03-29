@@ -9,7 +9,8 @@ import streamlit.components.v1 as components
 import pyvista as pv
 pv.set_jupyter_backend('panel')
 
-from tempfile import NamedTemporaryFile
+#from tempfile import NamedTemporaryFile
+from io import BytesIO
 
 import panel as pn
 pn.extension('vtk')
@@ -81,9 +82,10 @@ def stpyvista(
         geo_pan_pv = pn.panel(plotter.ren_win, width=width, height=height) 
         
         # Create HTML file
-        with NamedTemporaryFile(mode='a+', suffix='.html') as model_html:
-            geo_pan_pv.save(model_html.name, resources=INLINE)
-            panel_html = model_html.read()
+        model_bytes = BytesIO()
+        geo_pan_pv.save(model_bytes, resources=INLINE)
+        panel_html = model_bytes.getvalue().decode('utf-8')
+        model_bytes.close()
 
         component_value = _component_func(
             panel_html = panel_html,

@@ -31,6 +31,7 @@ mesh['myscalar'] = mesh.points[:, 2]*mesh.points[:, 0]
 
 ## Add mesh to the plotter
 plotter.add_mesh(mesh, scalars='myscalar', cmap='bwr', line_width=1)
+plotter.add_scalar_bar()
 
 ## Final touches
 plotter.view_isometric()

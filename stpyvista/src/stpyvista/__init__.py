@@ -53,6 +53,7 @@ class stpyvistaTypeError(TypeError):
 def stpyvista(
     plotter : pv.Plotter,
     horizontal_align : str = "center",
+    panel_kwargs = None,
     key: Optional[str] = None
     ) -> None:
 
@@ -67,6 +68,15 @@ def stpyvista(
     horizontal_align: str = "center"
         Either "center", "left" or "right"
 
+    panel_kwargs: dict | None
+        Optional keyword parameters to pass to pn.panel() Check: 
+        https://panel.holoviz.org/api/panel.pane.vtk.html for details. Here is
+        a useful one:
+        
+        orientation_widget: bool
+            Show the xyz axis indicator
+
+
     key: str|None
         An optional key that uniquely identifies this component. If this is
         None, and the component's arguments are changed, the component will
@@ -78,8 +88,16 @@ def stpyvista(
     """
 
     if isinstance(plotter, pv.Plotter): 
+
+        if panel_kwargs is None:
+            panel_kwargs = dict()
+        
         width, height = plotter.window_size
-        geo_pan_pv = pn.panel(plotter.ren_win, width=width, height=height) 
+        geo_pan_pv = pn.panel(
+            plotter.ren_win, 
+            width = width, 
+            height = height,
+            **panel_kwargs) 
         
         # Create HTML file
         model_bytes = BytesIO()
@@ -90,7 +108,7 @@ def stpyvista(
         component_value = _component_func(
             panel_html = panel_html,
             width = width,
-            height = height+100,
+            height = height,
             horizontal_align = horizontal_align,
             key = key,
             default = 0)

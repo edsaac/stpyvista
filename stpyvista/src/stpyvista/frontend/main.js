@@ -22,20 +22,21 @@ function onRender(event) {
     const stpyvistadiv = document.getElementById("stpyvistadiv");
     const stpyvistaframe = document.getElementById("stpyvistaframe");
 
-    // Style the wrapping div for the iframe
-    stpyvistadiv.style.width = width + 15;
-    stpyvistadiv.style.textAlign = horizontal_align;
     
     // Overwrite default iframe dimensions and put model in the iframe
     // just CSS styling does not apply to the iframe
     stpyvistaframe.srcdoc = panel_html;
-    stpyvistaframe.width = width + 15;
-    console.log("WIDTH", width)
+    stpyvistaframe.width = width + 24;
+    stpyvistaframe.height = height + 20;
+    stpyvistaframe.scrolling = "yes";
+    // console.log("WIDTH", width)
+    
+    // Style the wrapping div for the iframe
+    // stpyvistadiv.style.width = stpyvistaframe.width + 10;
+    stpyvistadiv.style.textAlign = horizontal_align;
 
-    stpyvistaframe.height = height + 15;
-    Streamlit.setFrameHeight(height + 40)
-    console.log("HEIGHT", width)
-    stpyvistaframe.scrolling = "no";
+    // console.log("HEIGHT", height)
+    Streamlit.setFrameHeight(height + 50);
     stpyvistaframe.style.border = "2px red";
     
     // Send some value to python 

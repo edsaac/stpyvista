@@ -45,6 +45,13 @@ stpyvista(plotter, key="pv_cube")
 
 <details>
 <summary>
+v 0.0.8
+</summary>
+- Remove excessive whitespace below the rendered component.
+- Can pass additional kwargs to panel.pane.vtk, e.g. setting an orientation_widget. Check panel-vtk for details on valid kwargs.
+</details>
+
+<summary>
 v 0.0.6
 </summary>
 - Replaced pythreejs backend for panel backend. This is a temporary solution as pyvista will remove panel support in favor of trame.

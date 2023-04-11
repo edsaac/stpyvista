@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setuptools.setup(
     name="stpyvista",
-    version="0.0.7",
+    version="0.0.8",
     author="Edwin S",
     author_email="esaavedrac@u.northwestern.edu",
     description="Streamlit component that allows you to visualize pyvista 3D visualizations",

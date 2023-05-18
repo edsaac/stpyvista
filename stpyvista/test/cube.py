@@ -6,9 +6,6 @@ st.set_page_config(page_icon="🧊", layout="wide")
 st.title("🧊 `stpyvista`")
 st.sidebar.header("Show PyVista 3D visualizations in Streamlit")
 
-# pythreejs does not support scalar bars :(
-pv.global_theme.show_scalar_bar = False 
-
 ## Initialize a plotter object
 plotter = pv.Plotter(window_size=[500,400])
 
@@ -32,5 +29,5 @@ plotter.background_color = 'lightgray'
 ## Pass a key to avoid re-rendering at each time something changes in the page
 stpyvista(plotter, key="pv_cube", panel_kwargs=dict(orientation_widget = True))
 
-##
-st.text("Jello")
+## Add something else below
+st.text("Jello there"*50)

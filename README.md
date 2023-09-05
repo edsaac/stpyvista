@@ -1,4 +1,5 @@
 # 🧊 `stpyvista`
+
 ## Show PyVista 3D visualizations in Streamlit
 
 <center>
@@ -6,11 +7,11 @@
 
 <a href="https://github.com/edsaac/stpyvista"><img alt="Github Repo" src="https://img.shields.io/static/v1?label=&message=Source code&color=black&logo=github"></a> [![PyPi version](https://badgen.net/pypi/v/stpyvista/)](https://pypi.org/project/stpyvista/) <a href="https://github.com/edsaac/stpyvista-tests"><img alt="Github tests repo" src="https://img.shields.io/static/v1?label=&message=Check examples&color=black&logo=github"></a>
 
-![howto-stpyvista|508x500, 100%](assets/stpyvista_intro.gif)
+<iframe src="https://stpyvista.streamlit.app/?embed=true" height="400" style="width:100%;border:none;"></iframe>
 
 </center>
 
-This is a simple component that takes a PyVista plotter object and shows it on Streamlit as an interactive element (as in it can be zoomed in/out, moved and rotated, but the visualization state is not returned). It uses PyVista's [panel backend](https://docs.pyvista.org/user-guide/jupyter/panel.html) and it basically takes the plotter, [exports it to HTML](https://docs.pyvista.org/api/plotting/_autosummary/pyvista.Plotter.export_html.html) and displays that within an iframe.
+This is a simple component that takes a PyVista plotter object and shows it on Streamlit as an interactive element (as in it can be zoomed in/out, moved and rotated, but the visualization state is not returned). It uses [Panel](https://panel.holoviz.org/reference/panes/VTK.html#working-with-pyvista) to render PyVista plotter objects within an iframe.
 
 > ⚠️ `panel` and `pythreejs` as pyvista backends were deprecated in favor of `trame`. 
 
@@ -21,10 +22,6 @@ This is a simple component that takes a PyVista plotter object and shows it on S
 ```sh
 pip install stpyvista
 ```
-************
-## Docs and examples
-
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://stpyvista.streamlit.app/)
 
 ******
 
@@ -60,5 +57,6 @@ stpyvista(plotter, key="pv_cube")
 
 #### Also check:
 * The PyVista project at [https://www.pyvista.org/](https://www.pyvista.org/)
+* Working with Panel and Pyvista [https://panel.holoviz.org](https://panel.holoviz.org/reference/panes/VTK.html#working-with-pyvista)
 * @blackary['s blog post](https://blog.streamlit.io/how-to-build-your-own-streamlit-component/) on how to build a custom component
 * Other stuff from me on [https://edsaac.github.io](https://edsaac.github.io)

@@ -7,7 +7,7 @@
 
 <a href="https://github.com/edsaac/stpyvista"><img alt="Github Repo" src="https://img.shields.io/static/v1?label=&message=Source code&color=black&logo=github"></a> [![PyPi version](https://badgen.net/pypi/v/stpyvista/)](https://pypi.org/project/stpyvista/) <a href="https://github.com/edsaac/stpyvista-tests"><img alt="Github tests repo" src="https://img.shields.io/static/v1?label=&message=Check examples&color=black&logo=github"></a>
 
-![howto-stpyvista|508x500, 100%](assets/stpyvista_intro.gif)
+<iframe src="https://stpyvista.streamlit.app/?embed=true" height="400" style="width:100%;border:none;"></iframe>
 
 </center>
 

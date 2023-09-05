@@ -37,36 +37,3 @@ plotter.background_color = 'white'
 ## Pass a key to avoid re-rendering at each time something changes in the page
 stpyvista(plotter, key="pv_cube")
 ```
-
-## Log changes
-
-<details>
-<summary>
-v 0.0.8
-</summary>
-- Remove excessive whitespace below the rendered component.
-- Can pass additional kwargs to panel.pane.vtk, e.g. setting an orientation_widget. Check panel-vtk for details on valid kwargs.
-</details>
-
-<summary>
-v 0.0.6
-</summary>
-- Replaced pythreejs backend for panel backend. This is a temporary solution as pyvista will remove panel support in favor of trame.
-</details>
-
-<details>
-<summary>
-v 0.0.5
-</summary>
-- Support transparent backgrounds to blend with streamlit's web app theme.
-- Add a control to spin along a certain axis the first mesh passed to the plotter.
-</details>
-
-<details>
-<summary>
-v 0.0.4
-</summary>
-- Pass a key to the stpyvista component to avoid re-rendering at every streamlit interaction
-- Using ipywidgets `embed_minimal_html` directly instead of pyvista `export_html`. 
-- Update examples as a multipage streamlit app
-</details>

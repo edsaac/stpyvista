@@ -1,14 +1,14 @@
 [build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "stpyvista"
-version = "0.0.8"
+version = "0.0.9"
 authors = [
   { name="Edwin S", email="esaavedrac@u.northwestern.edu" },
 ]
-description = "Streamlit component that allows you to show PyVista 3d visualizations"
+description = "Streamlit component to render pyvista 3D visualizations"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [

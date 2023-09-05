@@ -27,7 +27,7 @@ plotter.view_isometric()
 plotter.background_color = 'lightgray'
 
 ## Pass a key to avoid re-rendering at each time something changes in the page
-stpyvista(plotter, key="pv_cube", panel_kwargs=dict(orientation_widget = True))
+stpyvista(plotter, panel_kwargs=dict(orientation_widget = True))
 
 ## Add something else below
 st.text("Jello there"*50)

@@ -18,22 +18,37 @@ function onRender(event) {
   if (!window.rendered) {
 
     // You most likely want to get the data passed in like this
-    const {panel_html, width, height, horizontal_align, key} = event.detail.args;
+    const {panel_html, height, width, horizontal_align, use_container_width, key} = event.detail.args;
+    
     const stpyvistadiv = document.getElementById("stpyvistadiv");
     const stpyvistaframe = document.getElementById("stpyvistaframe");
-
-    
-    // Overwrite default iframe dimensions and put model in the iframe
-    // just CSS styling does not apply to the iframe
-    stpyvistaframe.srcdoc = panel_html;
-    stpyvistaframe.width = width + 24;
-    stpyvistaframe.height = height + 20;
-    stpyvistaframe.scrolling = "yes";
-    // console.log("WIDTH", width)
     
     // Style the wrapping div for the iframe
-    // stpyvistadiv.style.width = stpyvistaframe.width + 10;
     stpyvistadiv.style.textAlign = horizontal_align;
+
+    // Overwrite default iframe dimensions with the container width
+    if (Boolean(use_container_width)){
+        
+        stpyvistaframe.width = document.body.offsetWidth;
+        
+        // Listen to resize changes. If any, panel takes care of resizing
+        function updateFrameWidth() {
+            stpyvistaframe.width = document.body.offsetWidth;
+        }
+        
+        window.onresize = function(event) {
+            updateFrameWidth();
+        }
+    } else {
+        stpyvistaframe.width = width + 24;
+    }
+    
+    stpyvistaframe.srcdoc = panel_html;
+    stpyvistaframe.height = height + 20;
+    stpyvistaframe.scrolling = "yes";
+    
+
+    // stpyvistadiv.style.width = stpyvistaframe.width + 10;
 
     // console.log("HEIGHT", height)
     Streamlit.setFrameHeight(height + 50);

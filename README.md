@@ -13,9 +13,6 @@
 
 This is a simple component that takes a PyVista plotter object and shows it on Streamlit as an interactive element (as in it can be zoomed in/out, moved and rotated, but the visualization state is not returned). It uses [Panel](https://panel.holoviz.org/reference/panes/VTK.html#working-with-pyvista) to render PyVista plotter objects within an iframe.
 
-> ⚠️ `panel` and `pythreejs` as pyvista backends were deprecated in favor of `trame`. 
-
-
 ******
 ## Installation 
 
@@ -25,8 +22,15 @@ pip install stpyvista
 
 ******
 
-## Basic example:
+## Check app demo with examples at [https://stpyvista.streamlit.app](https://stpyvista.streamlit.app)
 
+******
+
+<details>
+<summary>
+Basic example
+</summary>
+  
 ```python
 import streamlit as st
 import pyvista as pv
@@ -52,6 +56,7 @@ plotter.background_color = 'white'
 ## Pass a key to avoid re-rendering at each time something changes in the page
 stpyvista(plotter, key="pv_cube")
 ```
+</details>
 
 ****
 

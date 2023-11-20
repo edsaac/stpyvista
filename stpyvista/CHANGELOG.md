@@ -1,5 +1,8 @@
 # Changelog
 
+## [v 0.0.11] - 2023-11-20
+- Remove unnecessary pyvista call for a jupyter backend. Ipython dependency can be totally drop now.
+
 ## [v 0.0.10] - 2023-11-16
 - Add `use_container_width` option to `stpyvista`. Defaults to True 
 - Changed bokeh.resources to import CDN instead of INLINE to html generation.

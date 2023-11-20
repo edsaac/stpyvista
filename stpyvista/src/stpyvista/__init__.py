@@ -8,7 +8,7 @@ import pyvista as pv
 import panel as pn
 from bokeh.resources import CDN
 
-pv.set_jupyter_backend("static")
+# pv.set_jupyter_backend("none")
 pn.extension("vtk", sizing_mode="stretch_width")
 
 # Tell streamlit that there is a component called stpyvista,

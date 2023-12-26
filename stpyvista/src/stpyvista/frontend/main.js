@@ -18,7 +18,7 @@ function onRender(event) {
   if (!window.rendered) {
 
     // You most likely want to get the data passed in like this
-    const {panel_html, height, width, horizontal_align, use_container_width, key} = event.detail.args;
+    const {embed_html, height, width, horizontal_align, use_container_width, key} = event.detail.args;
     
     const stpyvistadiv = document.getElementById("stpyvistadiv");
     const stpyvistaframe = document.getElementById("stpyvistaframe");
@@ -43,7 +43,7 @@ function onRender(event) {
         stpyvistaframe.width = width + 24;
     }
     
-    stpyvistaframe.srcdoc = panel_html;
+    stpyvistaframe.srcdoc = embed_html;
     stpyvistaframe.height = height + 20;
     stpyvistaframe.scrolling = "yes";
     

@@ -1,48 +1,51 @@
 # __init__.py
 
-from io import BytesIO
 from pathlib import Path
-from typing import Optional, Literal
 import streamlit.components.v1 as components
 import pyvista as pv
-import panel as pn
-
-from bokeh.resources import CDN, INLINE
-BOKEH_RESOURCES = {"CDN": CDN, "INLINE": INLINE}
-
-pn.extension("vtk", sizing_mode="stretch_width")
+from typing import Optional, Literal
+from .errors import *
 
 # Tell streamlit that there is a component called stpyvista,
 # and that the code to display that component is in the "frontend" folder
 frontend_dir = (Path(__file__).parent / "frontend").absolute()
-
 _component_func = components.declare_component("stpyvista", path=str(frontend_dir))
 
+STPYVISTA_BACKEND = "panel"
 
-class stpyvistaTypeError(TypeError):
-    """Unsupported format for input"""
+def set_backend(backend: Literal["trame", "panel"]):
+    global STPYVISTA_BACKEND
 
-    pass
+    if backend not in ("trame", "panel"):
+        raise stpyvistaValueError(
+            f"{backend} not a valid backend. "
+            "Valid backends are `panel` and `trame`"
+        )
+    else:
+        STPYVISTA_BACKEND = backend
 
-
-# Create the python function that will be called from the front end
-
+###############
+        
 def stpyvista(
-    plotter: pv.Plotter,
-    use_container_width: bool = True,
-    horizontal_align: Literal["center", "left", "right"] = "center",
-    panel_kwargs: dict|None = None,
-    bokeh_resources: Literal["CDN", "INLINE"] = "INLINE",
-    key: Optional[str] = None,
-) -> None:
+        plotter: pv.Plotter,
+        key: Optional[str] = None,
+        use_container_width: bool = True,
+        horizontal_align: Literal["center", "left", "right"] = "center",
+        **backend_options,
+    ):
     """
     Renders an interactive pyvisya Plotter in streamlit.
     
     Parameters
     ----------
-    input: pv.Plotter
+    plotter: pv.Plotter
         Pyvista plotter object to render.
     
+    key: str|None
+        An optional key that uniquely identifies this component. If this is
+        None, and the component's arguments are changed, the component will
+        be re-mounted in the Streamlit frontend and lose its current state.
+
     use_container_width : bool = True
         If True, set the dataframe width to the width of the parent container. \
         This takes precedence over the `horizontal_align` argument. \
@@ -52,10 +55,12 @@ def stpyvista(
         Horizontal alignment of the stpyvista component. This parameter is ignored if 
         `use_container_width = True`. Defaluts to `"center"`.
 
+    *If using the **panel** backend*:
+
     panel_kwargs : dict | None = None
-        Optional keyword parameters to pass to pn.panel() Check: 
-        https://panel.holoviz.org/api/panel.pane.vtk.html for details. Here is
-        a useful one:
+        Optional keyword parameters to pass to pn.panel(). 
+        Check: https://panel.holoviz.org/api/panel.pane.vtk.html 
+        for more details. Here is an useful one:
         
         orientation_widget : bool
             Show the xyz axis indicator
@@ -65,10 +70,8 @@ def stpyvista(
         https://docs.bokeh.org/en/latest/docs/reference/resources.html for details. \
         Defaults to "INLINE" 
 
-    key: str|None
-        An optional key that uniquely identifies this component. If this is
-        None, and the component's arguments are changed, the component will
-        be re-mounted in the Streamlit frontend and lose its current state.
+    *If using the **trame** backend*:
+
     
     Returns
     -------
@@ -76,35 +79,37 @@ def stpyvista(
 
     """
 
-    if isinstance(plotter, pv.Plotter):
-        if panel_kwargs is None:
-            panel_kwargs = dict()
+    if not isinstance(plotter, pv.Plotter):
+        raise stpyvistaTypeError(
+            f'{plotter} is not a `pv.Plotter` instance. '
+        ) 
+
+    else:
 
         width, height = plotter.window_size
 
         if use_container_width:
-            geo_pan_pv = pn.panel(plotter.ren_win, height=height, **panel_kwargs)
-        else:
-            geo_pan_pv = pn.panel(
-                plotter.ren_win, height=height, width=width, **panel_kwargs
-            )
+            width = "100%"
+
+        if backend_options is None:
+            backend_options = {}
         
-        # Check bokeh_resources
-        if not bokeh_resources in ("CDN", "INLINE"):
-            raise stpyvistaTypeError(
-                f'"{bokeh_resources}" is not a valid bokeh resource. '
-                'Valid options are "CDN" or "INLINE".'
-            )
-            
+        backend_options.update(
+            {"use_container_width": use_container_width}
+        )
         
-        # Create HTML file
-        model_bytes = BytesIO()
-        geo_pan_pv.save(model_bytes, resources=BOKEH_RESOURCES[bokeh_resources])
-        panel_html = model_bytes.getvalue().decode("utf-8")
-        model_bytes.close()
+        if STPYVISTA_BACKEND == "panel":
+            from .backends.panel import prerender
+        
+        elif STPYVISTA_BACKEND == "trame":
+            from .backends.trame import prerender
+
+
+
+        html = prerender(plotter, **backend_options)
 
         component_value = _component_func(
-            panel_html=panel_html,
+            embed_html = html,
             height=height,
             width=width,
             horizontal_align=horizontal_align,
@@ -112,14 +117,6 @@ def stpyvista(
             key=key,
             default=0,
         )
-
-        return component_value
-
-    else:
-        raise stpyvistaTypeError(
-            f'{plotter} is not a `pv.Plotter` instance. '
-        )
-
 
 def main():
     pass

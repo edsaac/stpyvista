@@ -1,10 +1,14 @@
 import streamlit as st
 import pyvista as pv
-from stpyvista import stpyvista
+from stpyvista import stpyvista, set_backend
 
 st.set_page_config(page_icon="🧊", layout="wide")
 st.title("🧊 `stpyvista`")
 st.sidebar.header("Show PyVista 3D visualizations in Streamlit")
+
+with st.sidebar:
+    backend = st.selectbox("Backend", ["panel", "trame"], index=0)
+    set_backend(backend)
 
 ## Initialize a plotter object
 plotter = pv.Plotter(window_size=[500,400])

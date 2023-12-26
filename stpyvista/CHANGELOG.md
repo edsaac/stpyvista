@@ -1,5 +1,9 @@
 # Changelog
 
+## [v 0.0.12] - 2023-12-26
+- Add option to pass to `bokeh.resources` to load either `CDN` or `INLINE`. Defaults to `INLINE`.
+- Update docstring for stpyvista
+
 ## [v 0.0.11] - 2023-11-20
 - Remove unnecessary pyvista call for a jupyter backend. Ipython dependency can be totally drop now.
 

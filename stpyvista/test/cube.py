@@ -44,4 +44,4 @@ cols = st.columns([1,2,1], gap="small")
 
 for col in cols:
     with col:
-        stpyvista(plotter, use_container_width=chk)
+        stpyvista(plotter, use_container_width=chk, bokeh_resources="CDN")

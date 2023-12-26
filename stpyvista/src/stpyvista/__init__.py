@@ -6,9 +6,10 @@ from typing import Optional, Literal
 import streamlit.components.v1 as components
 import pyvista as pv
 import panel as pn
-from bokeh.resources import CDN
 
-# pv.set_jupyter_backend("none")
+from bokeh.resources import CDN, INLINE
+BOKEH_RESOURCES = {"CDN": CDN, "INLINE": INLINE}
+
 pn.extension("vtk", sizing_mode="stretch_width")
 
 # Tell streamlit that there is a component called stpyvista,
@@ -25,14 +26,13 @@ class stpyvistaTypeError(TypeError):
 
 
 # Create the python function that will be called from the front end
-HA_MODES = Literal["left", "center", "right"]
-
 
 def stpyvista(
     plotter: pv.Plotter,
     use_container_width: bool = True,
-    horizontal_align: HA_MODES = "center",
-    panel_kwargs=None,
+    horizontal_align: Literal["center", "left", "right"] = "center",
+    panel_kwargs: dict|None = None,
+    bokeh_resources: Literal["CDN", "INLINE"] = "INLINE",
     key: Optional[str] = None,
 ) -> None:
     """
@@ -40,24 +40,30 @@ def stpyvista(
     
     Parameters
     ----------
-    input: Union[pv.Plotter, HTML_stpyvista]
-        Plotter to render
+    input: pv.Plotter
+        Pyvista plotter object to render.
     
     use_container_width : bool = True
         If True, set the dataframe width to the width of the parent container. \
         This takes precedence over the `horizontal_align` argument. \
-        Defaults to True
+        Defaults to `True`.
     
-    horizontal_align: str = "center"
-        Either "center", "left" or "right". Defaults to "center". 
+    horizontal_align : Literal["center", "left", "right"] = "center"
+        Horizontal alignment of the stpyvista component. This parameter is ignored if 
+        `use_container_width = True`. Defaluts to `"center"`.
 
-    panel_kwargs: dict | None
+    panel_kwargs : dict | None = None
         Optional keyword parameters to pass to pn.panel() Check: 
         https://panel.holoviz.org/api/panel.pane.vtk.html for details. Here is
         a useful one:
         
-        orientation_widget: bool
+        orientation_widget : bool
             Show the xyz axis indicator
+
+    bokeh_resources: Literal["CDN", "INLINE"] = "Inline"
+        Source of the BokehJS configuration. Check:
+        https://docs.bokeh.org/en/latest/docs/reference/resources.html for details. \
+        Defaults to "INLINE" 
 
     key: str|None
         An optional key that uniquely identifies this component. If this is
@@ -67,6 +73,7 @@ def stpyvista(
     Returns
     -------
     None
+
     """
 
     if isinstance(plotter, pv.Plotter):
@@ -81,10 +88,18 @@ def stpyvista(
             geo_pan_pv = pn.panel(
                 plotter.ren_win, height=height, width=width, **panel_kwargs
             )
-
+        
+        # Check bokeh_resources
+        if not bokeh_resources in ("CDN", "INLINE"):
+            raise stpyvistaTypeError(
+                f'"{bokeh_resources}" is not a valid bokeh resource. '
+                'Valid options are "CDN" or "INLINE".'
+            )
+            
+        
         # Create HTML file
         model_bytes = BytesIO()
-        geo_pan_pv.save(model_bytes, resources=CDN)
+        geo_pan_pv.save(model_bytes, resources=BOKEH_RESOURCES[bokeh_resources])
         panel_html = model_bytes.getvalue().decode("utf-8")
         model_bytes.close()
 
@@ -101,7 +116,9 @@ def stpyvista(
         return component_value
 
     else:
-        raise (stpyvistaTypeError)
+        raise stpyvistaTypeError(
+            f'{plotter} is not a `pv.Plotter` instance. '
+        )
 
 
 def main():

@@ -21,15 +21,13 @@ function onRender(event) {
     const {panel_html, height, width, horizontal_align, use_container_width, bgcolor, key} = event.detail.args;
     
     const mainframe = window.parent.document.querySelector('iframe[title="stpyvista.stpyvista"]');
-    const stpyvistadiv = document.getElementById("stpyvistadiv");
+    // const stpyvistadiv = document.getElementById("stpyvistadiv");
     const stpyvistaframe = document.getElementById("stpyvistaframe");
     const fullscreen_height = window.screen.height;
 
     // Style the wrapping div for the iframe
     mainframe.parentElement.style.textAlign = horizontal_align;
     mainframe.contentDocument.querySelector('body').style.backgroundColor = bgcolor;
-    console.log(bgcolor)
-    console.log(mainframe); //[0].querySelector('body').style.backgroundColor = "red";
 
     function updateFrameWidth() {
         delete mainframe.width;

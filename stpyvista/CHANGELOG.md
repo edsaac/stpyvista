@@ -1,7 +1,9 @@
 # Changelog
 
-## [v 0.0.13] - 
-- Tweak iframe dimensions to get it centered
+## [v 0.0.13] - 2023-12-27
+- Tweak iframe dimensions to get iframe centered
+- Add fullscreen button for all plotters
+- Plotter background color is used as iframe bgcolor
 
 ## [v 0.0.12] - 2023-12-26
 - Add option to pass to `bokeh.resources` to load either `CDN` or `INLINE`. Defaults to `INLINE`.

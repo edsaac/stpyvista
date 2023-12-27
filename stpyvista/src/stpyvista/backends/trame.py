@@ -1,9 +1,6 @@
 from typing import Optional, Literal
 import pyvista as pv
-pv.set_jupyter_backend("html")
-
 from ..errors import *
-
 
 def prerender(
     plotter: pv.Plotter,

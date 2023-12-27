@@ -29,11 +29,12 @@ function onRender(event) {
     // Overwrite default iframe dimensions with the container width
     if (Boolean(use_container_width)){
         
-        stpyvistaframe.width = document.body.offsetWidth;
+        // Adds 20 to counter the padding added by panel's stylesheet
+        stpyvistaframe.width = document.body.offsetWidth + 20;  
         
         // Listen to resize changes. If any, panel takes care of resizing
         function updateFrameWidth() {
-            stpyvistaframe.width = document.body.offsetWidth;
+            stpyvistaframe.width = document.body.offsetWidth + 20;
         }
         
         window.onresize = function(event) {
@@ -51,8 +52,8 @@ function onRender(event) {
     // stpyvistadiv.style.width = stpyvistaframe.width + 10;
 
     // console.log("HEIGHT", height)
-    Streamlit.setFrameHeight(height + 50);
-    stpyvistaframe.style.border = "2px red";
+    Streamlit.setFrameHeight(height + 24);
+    // stpyvistaframe.style.border = "2px red";
     
     // Send some value to python 
     // Not very useful at the moment but keep it for later

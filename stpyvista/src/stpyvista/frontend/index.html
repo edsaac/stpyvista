@@ -23,25 +23,29 @@
     <script>
         // var elem = document.getElementById("stpyvistadiv"); 
         var elem = document.documentElement;
+        var is_fullscreen = false;
+
         function openFullscreen() {
-          if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-          } else if (elem.webkitRequestFullscreen) { /* Safari */
-            elem.webkitRequestFullscreen();
-          } else if (elem.msRequestFullscreen) { /* IE11 */
-            elem.msRequestFullscreen();
-          }
+            if (is_fullscreen){
+                if (document.exitFullscreen) {
+                document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { /* Safari */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE11 */
+                    document.msExitFullscreen();
+                }
+                is_fullscreen = false;
+            } else {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) { /* Safari */
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) { /* IE11 */
+                    elem.msRequestFullscreen();
+                }
+                is_fullscreen = true;
+            }
         }
-        
-        // function closeFullscreen() {
-        //   if (document.exitFullscreen) {
-        //     document.exitFullscreen();
-        //   } else if (document.webkitExitFullscreen) { /* Safari */
-        //     document.webkitExitFullscreen();
-        //   } else if (document.msExitFullscreen) { /* IE11 */
-        //     document.msExitFullscreen();
-        //   }
-        // }
         </script>
     </body>
 </html>

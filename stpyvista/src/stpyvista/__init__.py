@@ -10,7 +10,7 @@ import panel as pn
 from bokeh.resources import CDN, INLINE
 BOKEH_RESOURCES = {"CDN": CDN, "INLINE": INLINE}
 
-pn.extension("vtk", sizing_mode="stretch_width")
+pn.extension("vtk", sizing_mode="stretch_both")
 
 # Tell streamlit that there is a component called stpyvista,
 # and that the code to display that component is in the "frontend" folder
@@ -83,11 +83,10 @@ def stpyvista(
         width, height = plotter.window_size
 
         if use_container_width:
-            geo_pan_pv = pn.panel(plotter.ren_win, height=height, **panel_kwargs)
+            # geo_pan_pv = pn.panel(plotter.ren_win, height=height, **panel_kwargs)
+            geo_pan_pv = pn.panel(plotter.ren_win, **panel_kwargs)
         else:
-            geo_pan_pv = pn.panel(
-                plotter.ren_win, height=height, width=width, **panel_kwargs
-            )
+            geo_pan_pv = pn.panel(plotter.ren_win, width=width, **panel_kwargs)
         
         # Check bokeh_resources
         if not bokeh_resources in ("CDN", "INLINE"):

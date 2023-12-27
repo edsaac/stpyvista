@@ -82,11 +82,7 @@ def stpyvista(
 
         width, height = plotter.window_size
 
-        if use_container_width:
-            # geo_pan_pv = pn.panel(plotter.ren_win, height=height, **panel_kwargs)
-            geo_pan_pv = pn.panel(plotter.ren_win, **panel_kwargs)
-        else:
-            geo_pan_pv = pn.panel(plotter.ren_win, width=width, **panel_kwargs)
+        geo_pan_pv = pn.panel(plotter.ren_win, **panel_kwargs)
         
         # Check bokeh_resources
         if not bokeh_resources in ("CDN", "INLINE"):
@@ -101,13 +97,14 @@ def stpyvista(
         geo_pan_pv.save(model_bytes, resources=BOKEH_RESOURCES[bokeh_resources])
         panel_html = model_bytes.getvalue().decode("utf-8")
         model_bytes.close()
-
+        
         component_value = _component_func(
             panel_html=panel_html,
             height=height,
             width=width,
             horizontal_align=horizontal_align,
             use_container_width=1 if use_container_width else 0,
+            bgcolor = plotter.background_color.hex_rgba,
             key=key,
             default=0,
         )

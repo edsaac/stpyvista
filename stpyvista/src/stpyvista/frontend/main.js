@@ -18,42 +18,49 @@ function onRender(event) {
   if (!window.rendered) {
 
     // You most likely want to get the data passed in like this
-    const {panel_html, height, width, horizontal_align, use_container_width, key} = event.detail.args;
+    const {panel_html, height, width, horizontal_align, use_container_width, bgcolor, key} = event.detail.args;
     
+    const mainframe = window.parent.document.querySelector('iframe[title="stpyvista.stpyvista"]');
     const stpyvistadiv = document.getElementById("stpyvistadiv");
     const stpyvistaframe = document.getElementById("stpyvistaframe");
     const fullscreen_height = window.screen.height;
 
     // Style the wrapping div for the iframe
-    stpyvistadiv.style.textAlign = horizontal_align;
+    mainframe.parentElement.style.textAlign = horizontal_align;
+    mainframe.contentDocument.querySelector('body').style.backgroundColor = bgcolor;
+    console.log(bgcolor)
+    console.log(mainframe); //[0].querySelector('body').style.backgroundColor = "red";
 
-    // Overwrite default iframe dimensions with the container width
+    function updateFrameWidth() {
+        delete mainframe.width;
+        stpyvistaframe.width = document.body.offsetWidth + 20;
+    }
+
     if (Boolean(use_container_width)){
-        
-        // Adds 20 to counter the padding added by panel's stylesheet
-        stpyvistaframe.width = document.body.offsetWidth + 20;  
-        
-        // Listen to resize changes. If any, panel takes care of resizing
-        function updateFrameWidth() {
-            stpyvistaframe.width = document.body.offsetWidth + 20;
-        }
-        
         window.onresize = function(event) {
             updateFrameWidth();
         }
     } else {
-        stpyvistaframe.width = width + 24;
+        mainframe.width = width + 10;
+        stpyvistaframe.width = width + 16;
     }
 
     function fullscreenchanged(event) {
-        // document.fullscreenElement will point to the element that
-        // is in fullscreen mode if there is one. If there isn't one,
-        // the value of the property is null.
+
         if (document.fullscreenElement) {
+            updateFrameWidth();
+
             stpyvistaframe.height = fullscreen_height - 4;
             Streamlit.setFrameHeight(fullscreen_height);
+
         } else {
-            // console.log("Leaving fullscreen mode.");
+            if (Boolean(use_container_width)){
+                updateFrameWidth();
+            } else {
+                mainframe.width = width + 10;
+                stpyvistaframe.width = width + 16;
+            }
+
             stpyvistaframe.height = height + 20;
             Streamlit.setFrameHeight(height + 24);
         }
@@ -62,12 +69,9 @@ function onRender(event) {
     document.addEventListener("fullscreenchange", fullscreenchanged);
 
     stpyvistaframe.srcdoc = panel_html;
-    stpyvistaframe.height = height + 20;
     stpyvistaframe.scrolling = "yes";
-
-    // stpyvistadiv.style.width = stpyvistaframe.width + 10;
-
-    // console.log("HEIGHT", height)
+        
+    stpyvistaframe.height = height + 20;
     Streamlit.setFrameHeight(height + 24);
     
     // Send some value to python 

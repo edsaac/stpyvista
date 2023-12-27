@@ -15,13 +15,13 @@ pn.extension("vtk", sizing_mode="stretch_width")
 # Tell streamlit that there is a component called stpyvista,
 # and that the code to display that component is in the "frontend" folder
 frontend_dir = (Path(__file__).parent / "frontend").absolute()
-
 _component_func = components.declare_component("stpyvista", path=str(frontend_dir))
 
 
 class stpyvistaTypeError(TypeError):
-    """Unsupported format for input"""
+    pass
 
+class stpyvistaValueError(ValueError):
     pass
 
 
@@ -91,7 +91,7 @@ def stpyvista(
         
         # Check bokeh_resources
         if not bokeh_resources in ("CDN", "INLINE"):
-            raise stpyvistaTypeError(
+            raise stpyvistaValueError(
                 f'"{bokeh_resources}" is not a valid bokeh resource. '
                 'Valid options are "CDN" or "INLINE".'
             )
@@ -117,7 +117,7 @@ def stpyvista(
 
     else:
         raise stpyvistaTypeError(
-            f'{plotter} is not a `pv.Plotter` instance. '
+            f'{plotter} is not a `pyvista.Plotter` instance. '
         )
 
 

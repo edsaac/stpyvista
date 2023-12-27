@@ -1,5 +1,8 @@
 # Changelog
 
+## [v 0.0.13] - 
+- Tweak iframe dimensions to get it centered
+
 ## [v 0.0.12] - 2023-12-26
 - Add option to pass to `bokeh.resources` to load either `CDN` or `INLINE`. Defaults to `INLINE`.
 - Update docstring for stpyvista

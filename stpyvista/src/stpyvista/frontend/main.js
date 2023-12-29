@@ -21,6 +21,8 @@ function onRender(event) {
     const {panel_html, height, width, horizontal_align, use_container_width, bgcolor, key} = event.detail.args;
     
     const mainframe = window.parent.document.querySelector('iframe[title="stpyvista.stpyvista"]');
+    mainframe.title = "stpyvista.rendered"
+    
     // const stpyvistadiv = document.getElementById("stpyvistadiv");
     const stpyvistaframe = document.getElementById("stpyvistaframe");
     const fullscreen_height = window.screen.height;

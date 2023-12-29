@@ -1,4 +1,7 @@
 # Changelog
+## [v 0.0.14] - 2023-12-29
+- Add background with transparency to fullscreen button
+- Fix bug of coloring backgrounds with multiple stpyvista renders in a single page
 
 ## [v 0.0.13] - 2023-12-27
 - Tweak iframe dimensions to get iframe centered

@@ -6,18 +6,17 @@
   Show <a href="https://docs.pyvista.org/index.html">PyVista</a> visualizations in Streamlit.
 </h3>
 
-<center>
 <p align="center">
 <a href="https://stpyvista.streamlit.app"><img alt="Streamlit Cloud" src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg"></a>
-
+</p>
+<p align="center">
 <a href="https://github.com/edsaac/stpyvista"><img alt="Github Repo" src="https://img.shields.io/static/v1?label=&message=Source code&color=black&logo=github"></a> 
 <a href="https://pypi.org/project/stpyvista/"><img alt="Check it at PyPI" src="https://badgen.net/pypi/v/stpyvista/">
 <a href="https://github.com/edsaac/stpyvista-tests"><img alt="Github tests repo" src="https://img.shields.io/static/v1?label=&message=Check examples&color=black&logo=github"></a>
 </p>
-
+<p align="center">
 <a href="https://stpyvista.streamlit.app"><img alt="Streamlit Cloud" src="assets/stpyvista_intro_crop.gif" width="400"></a>
-
-</center>
+</p>
 
 This component takes a PyVista plotter object and shows it on Streamlit as an interactive element (as in it can be zoomed in/out, moved and rotated, but the visualization state is not returned). It uses [Panel](https://panel.holoviz.org/reference/panes/VTK.html#working-with-pyvista) to render PyVista plotter objects within an iframe.
 

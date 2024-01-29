@@ -1,4 +1,9 @@
 # Changelog
+## [v 0.0.15] - 2024-01-29
+- Add start_xvfb wrapper to utils
+- Add deployment notes and know issue sections to repo README.md
+- Reduce PyPI's README.md
+
 ## [v 0.0.14] - 2023-12-29
 - Add background with transparency to fullscreen button
 - Fix bug of coloring backgrounds with multiple stpyvista renders in a single page

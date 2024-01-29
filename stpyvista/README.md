@@ -1,39 +1,18 @@
 # 🧊 `stpyvista`
 
-Streamlit component to show PyVista 3D visualizations
+### Show PyVista visualizations in Streamlit
 
-## Installation instructions 
+This component takes a PyVista plotter object and shows it on Streamlit as an interactive element (as in it can be zoomed in/out, moved and rotated, but the visualization state is not returned). It uses [Panel](https://panel.holoviz.org/reference/panes/VTK.html#working-with-pyvista) to render PyVista plotter objects within an iframe.
+
+****
+
+### 📦 Installation
 
 ```sh
 pip install stpyvista
 ```
+****
+### 📚 Demo and documentation 
 
-## Usage instructions
+[https://stpyvista.streamlit.app](https://stpyvista.streamlit.app)
 
-<a href="https://stpyvista.streamlit.app"><img alt="Streamlit Cloud" src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg"></a>
-
-```python
-import streamlit as st
-import pyvista as pv
-from stpyvista import stpyvista
-
-## Initialize a plotter object
-plotter = pv.Plotter(window_size=[400,400])
-
-## Create a mesh with a cube 
-mesh = pv.Cube(center=(0,0,0))
-
-## Add some scalar field associated to the mesh
-mesh['myscalar'] = mesh.points[:, 2]*mesh.points[:, 0]
-
-## Add mesh to the plotter
-plotter.add_mesh(mesh, scalars='myscalar', cmap='bwr', line_width=1)
-plotter.add_scalar_bar()
-
-## Final touches
-plotter.view_isometric()
-plotter.background_color = 'white'
-
-## Pass a key to avoid re-rendering at each time something changes in the page
-stpyvista(plotter, key="pv_cube")
-```

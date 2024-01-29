@@ -3,7 +3,7 @@
 - Add start_xvfb wrapper to utils
 - Add deployment notes and know issue sections to repo README.md
 - Reduce PyPI's README.md
-- Add random network utilities 
+- Add a get_ip network utility to log app activity
 
 ## [v 0.0.14] - 2023-12-29
 - Add background with transparency to fullscreen button

@@ -8,6 +8,7 @@ import pyvista as pv
 import panel as pn
 
 from bokeh.resources import CDN, INLINE
+
 BOKEH_RESOURCES = {"CDN": CDN, "INLINE": INLINE}
 
 pn.extension("vtk", sizing_mode="stretch_both")
@@ -21,17 +22,19 @@ _component_func = components.declare_component("stpyvista", path=str(frontend_di
 class stpyvistaTypeError(TypeError):
     pass
 
+
 class stpyvistaValueError(ValueError):
     pass
 
 
 # Create the python function that will be called from the front end
 
+
 def stpyvista(
     plotter: pv.Plotter,
     use_container_width: bool = True,
     horizontal_align: Literal["center", "left", "right"] = "center",
-    panel_kwargs: dict|None = None,
+    panel_kwargs: dict | None = None,
     bokeh_resources: Literal["CDN", "INLINE"] = "INLINE",
     key: Optional[str] = None,
 ) -> None:
@@ -83,28 +86,27 @@ def stpyvista(
         width, height = plotter.window_size
 
         geo_pan_pv = pn.panel(plotter.ren_win, **panel_kwargs)
-        
+
         # Check bokeh_resources
-        if not bokeh_resources in ("CDN", "INLINE"):
+        if bokeh_resources not in ("CDN", "INLINE"):
             raise stpyvistaValueError(
                 f'"{bokeh_resources}" is not a valid bokeh resource. '
                 'Valid options are "CDN" or "INLINE".'
             )
-            
-        
+
         # Create HTML file
         model_bytes = BytesIO()
         geo_pan_pv.save(model_bytes, resources=BOKEH_RESOURCES[bokeh_resources])
         panel_html = model_bytes.getvalue().decode("utf-8")
         model_bytes.close()
-        
+
         component_value = _component_func(
             panel_html=panel_html,
             height=height,
             width=width,
             horizontal_align=horizontal_align,
             use_container_width=1 if use_container_width else 0,
-            bgcolor = plotter.background_color.hex_rgba,
+            bgcolor=plotter.background_color.hex_rgba,
             key=key,
             default=0,
         )
@@ -112,9 +114,7 @@ def stpyvista(
         return component_value
 
     else:
-        raise stpyvistaTypeError(
-            f'{plotter} is not a `pyvista.Plotter` instance. '
-        )
+        raise stpyvistaTypeError(f"{plotter} is not a `pyvista.Plotter` instance. ")
 
 
 def main():

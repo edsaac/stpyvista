@@ -1,4 +1,10 @@
 # Changelog
+
+## [v 0.1.0] - 
+- Add controls help description 
+- Remove network utility - it should be a different component
+
+
 ## [v 0.0.15] - 2024-01-29
 - Add start_xvfb wrapper to utils
 - Add deployment notes and know issue sections to repo README.md

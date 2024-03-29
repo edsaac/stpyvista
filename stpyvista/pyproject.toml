@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "stpyvista"
-version = "0.0.15"
+version = "0.0.16"
 authors = [
   { name="Edwin Saavedra C.", email="esaavedrac@u.northwestern.edu" },
 ]
 description = "Streamlit component to render pyvista 3D visualizations"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",

@@ -34,7 +34,7 @@ def stpyvista(
     plotter: pv.Plotter,
     use_container_width: bool = True,
     horizontal_align: Literal["center", "left", "right"] = "center",
-    panel_kwargs: dict | None = None,
+    panel_kwargs: Optional[dict] = None,
     bokeh_resources: Literal["CDN", "INLINE"] = "INLINE",
     key: Optional[str] = None,
 ) -> None:

@@ -1,9 +1,9 @@
 # Changelog
 
-## [v 0.1.0] - 
+## [v 0.0.16] - 2024-03-29
 - Add controls help description 
 - Remove network utility - it should be a different component
-
+- Fix typing for python 3.9 support
 
 ## [v 0.0.15] - 2024-01-29
 - Add start_xvfb wrapper to utils

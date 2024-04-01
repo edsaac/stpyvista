@@ -92,8 +92,9 @@ stpyvista(plotter, key="pv_cube")
 
 ### 🚩 Known issues
 
+- [Buggy colormaps](https://github.com/edsaac/stpyvista/issues/19) when using `panel==1.4.0`. This issue is reported in the panel repository (see [issue](https://github.com/holoviz/panel/issues/6627)). Current solution is to pin `panel==1.3.8`.
 - [`NSInternalInconsistencyException`](https://github.com/edsaac/stpyvista/issues/14) thrown when running on macOS. Current solution is to deploy using a VM.
-- [`RuntimeError`](https://github.com/edsaac/stpyvista/issues/17) thrown when running Python 3.9. Current solution is to keep Python 3.9, panel, pyvista and stpyvista up-to-date. Also recommended to run with Python 3.10 or higher. 
+- [`RuntimeError`](https://github.com/edsaac/stpyvista/issues/17) thrown when running Python 3.9. Upgrading to `panel==1.4.0` fixes this issue but it breaks colormap colors. Current solution is to run with Python 3.10 or higher.
 
 ****
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## [v 0.0.17] - 2024-04-02
+- Rewrite buffer using context manager 
+
 ## [v 0.0.16] - 2024-03-29
 - Add controls help description 
 - Remove network utility - it should be a different component

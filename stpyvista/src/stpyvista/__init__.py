@@ -1,10 +1,14 @@
 # __init__.py
 
-from io import BytesIO
+from io import StringIO
 from pathlib import Path
 from typing import Optional, Literal
+from tempfile import NamedTemporaryFile
+import base64
+
 import streamlit.components.v1 as components
-import pyvista as pv
+from pyvista.plotting import Plotter
+
 import panel as pn
 
 from bokeh.resources import CDN, INLINE
@@ -15,8 +19,12 @@ pn.extension("vtk", sizing_mode="stretch_both")
 
 # Tell streamlit that there is a component called stpyvista,
 # and that the code to display that component is in the "frontend" folder
-frontend_dir = (Path(__file__).parent / "frontend").absolute()
-_component_func = components.declare_component("stpyvista", path=str(frontend_dir))
+# frontend_dir = (Path(__file__).parent / "frontend").absolute()
+# _component_func = components.declare_component("stpyvista", path=str(frontend_dir))
+
+
+experimental_frontend_dir = (Path(__file__).parent / "vanilla_vtkjs").absolute()
+_exp_component_func = components.declare_component("experimental_vtkjs", path=str(experimental_frontend_dir))
 
 
 class stpyvistaTypeError(TypeError):
@@ -26,12 +34,25 @@ class stpyvistaTypeError(TypeError):
 class stpyvistaValueError(ValueError):
     pass
 
+def experimental_vtkjs(vtksz_data: str,  key: Optional[str] = None):
 
-# Create the python function that will be called from the front end
+    # ## Export to vtksz
+    # with NamedTemporaryFile(suffix=".vtksz") as f:
+    #     plotter.export_vtksz(f.name, format="zip")
+    #     f.seek(0)
+    #     vtksz_bytes = f.read()
+    base64_str = base64.b64encode(vtksz_data).decode().replace("\n", "")
 
+    component_value = _exp_component_func(
+        plotter_data=base64_str,
+        key=key,
+        default=0,
+    )
+
+    return component_value
 
 def stpyvista(
-    plotter: pv.Plotter,
+    plotter: Plotter,
     use_container_width: bool = True,
     horizontal_align: Literal["center", "left", "right"] = "center",
     panel_kwargs: Optional[dict] = None,
@@ -39,7 +60,7 @@ def stpyvista(
     key: Optional[str] = None,
 ) -> None:
     """
-    Renders an interactive pyvisya Plotter in streamlit.
+    Renders an interactive Pyvista Plotter in streamlit.
     
     Parameters
     ----------
@@ -79,7 +100,7 @@ def stpyvista(
 
     """
 
-    if isinstance(plotter, pv.Plotter):
+    if isinstance(plotter, Plotter):
         if panel_kwargs is None:
             panel_kwargs = dict()
 
@@ -95,10 +116,9 @@ def stpyvista(
             )
 
         # Create HTML file
-        model_bytes = BytesIO()
-        geo_pan_pv.save(model_bytes, resources=BOKEH_RESOURCES[bokeh_resources])
-        panel_html = model_bytes.getvalue().decode("utf-8")
-        model_bytes.close()
+        with StringIO() as model_bytes:
+            geo_pan_pv.save(model_bytes, resources=BOKEH_RESOURCES[bokeh_resources])
+            panel_html = model_bytes.getvalue()
 
         component_value = _component_func(
             panel_html=panel_html,

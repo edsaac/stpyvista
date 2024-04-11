@@ -1,7 +1,8 @@
 # Changelog
 
-## [v 0.0.17] - 2024-04-02
+## [v 0.0.17] - 2024-04-11
 - Rewrite buffer using context manager 
+- Introduce and experimental viewer based on trame and vanilla vtk-js
 
 ## [v 0.0.16] - 2024-03-29
 - Add controls help description 

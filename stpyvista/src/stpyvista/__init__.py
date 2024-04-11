@@ -12,12 +12,9 @@ import panel as pn
 
 from bokeh.resources import CDN, INLINE
 
+pn.extension("vtk", sizing_mode="stretch_both")
 BOKEH_RESOURCES = {"CDN": CDN, "INLINE": INLINE}
 
-pn.extension("vtk", sizing_mode="stretch_both")
-
-# Tell streamlit that there is a component called stpyvista,
-# and that the code to display that component is in the "frontend" folder
 
 class stpyvistaTypeError(TypeError):
     pass
@@ -26,11 +23,30 @@ class stpyvistaTypeError(TypeError):
 class stpyvistaValueError(ValueError):
     pass
 
+
+# Tell streamlit that there is a component called `experimental_vtkjs`,
+# and that the code to display that component is in the "vanilla_vtkjs" folder
 experimental_frontend_dir = (Path(__file__).parent / "vanilla_vtkjs").absolute()
-_exp_component_func = components.declare_component("experimental_vtkjs", path=str(experimental_frontend_dir))
+_exp_component_func = components.declare_component(
+    "experimental_vtkjs", path=str(experimental_frontend_dir)
+)
 
-def experimental_vtkjs(vtksz_data: bytes,  key: Optional[str] = None):
 
+def experimental_vtkjs(vtksz_data: bytes, key: Optional[str] = None):
+    """
+    Renders an interactive Pyvista Plotter in streamlit.
+    
+    Parameters
+    ----------
+    vtksz_data: bytes
+        Data from a vtksz in zip format.
+    
+    Returns
+    -------
+    dict
+        A stringified JSON with camera view properties.
+    """
+    
     base64_str = base64.b64encode(vtksz_data).decode().replace("\n", "")
 
     component_value = _exp_component_func(
@@ -42,8 +58,9 @@ def experimental_vtkjs(vtksz_data: bytes,  key: Optional[str] = None):
     return component_value
 
 
-frontend_dir = (Path(__file__).parent / "frontend").absolute()
+frontend_dir = (Path(__file__).parent / "panel_based").absolute()
 _component_func = components.declare_component("stpyvista", path=str(frontend_dir))
+
 
 def stpyvista(
     plotter: Plotter,

@@ -1,3 +1,18 @@
+function post_camera_state() {
+    const camera = renderWindow.getRenderers()[1].getActiveCamera();
+
+    var cameraProperties = {
+        position: camera.getPosition(),
+        focal_point: camera.getFocalPoint(),
+        up: camera.getViewUp(),
+        view_angle: camera.getViewAngle(),
+        clipping_range: camera.getClippingRange(),
+        parallel_projection: camera.getParallelProjection()
+    };
+
+    Streamlit.setComponentValue(JSON.stringify(cameraProperties));
+}
+
 function onRender(event) {
 
     // Only run the render code the first time the component is loaded.
@@ -11,22 +26,14 @@ function onRender(event) {
         OfflineLocalView.load(container, { base64Str });
 
         const interactor = renderWindow.getInteractor();
-        interactor.onRightButtonPress((event) => {
-
-            const camera = renderWindow.getRenderers()[1].getActiveCamera();
-
-            var cameraProperties = {
-                position: camera.getPosition(),
-                focal_point: camera.getFocalPoint(),
-                up: camera.getViewUp(),
-                view_angle: camera.getViewAngle(),
-                clipping_range: camera.getClippingRange(),
-                parallel_projection: camera.getParallelProjection()
-            };
-
-            Streamlit.setComponentValue(cameraProperties);
+        
+        interactor.onLeftButtonRelease((event) => {
+            post_camera_state() 
         });
-
+        
+        interactor.onMouseWheel((event) => {
+            post_camera_state() 
+        });
         window.rendered = true;
         Streamlit.setFrameHeight('300');
     }

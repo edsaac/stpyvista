@@ -1,21 +1,26 @@
 import streamlit as st
 import pyvista as pv
 from stpyvista import experimental_vtkjs
-from threading import Thread
-import signal
+from stpyvista.export import export_vtksz
+import asyncio
 
-st.set_page_config(page_icon="🧊", layout="wide")
-st.title("🧊 `stpyvista`")
-st.sidebar.header("Show PyVista 3D visualizations in Streamlit")
-
-signal.set_wakeup_fd(0)
-
-def create_plotter_vtksz():
+@st.cache_resource
+def create_plotter(dummy:str = "sphere"):
+    
     # Initialize a plotter object
     plotter = pv.Plotter(window_size=[400, 400])
     mesh = pv.Sphere(radius=1.0, center=(0, 0, 0))
     x, y, z = mesh.cell_centers().points.T
     mesh["My scalar"] = z
+
+    # Scalar bar configuration
+    scalar_bar_kwargs = dict(
+        font_family='arial',
+        interactive=True,
+        position_x = 0.05,
+        position_y = 0.05,
+        vertical=False
+    )
 
     ## Add mesh to the plotter
     plotter.add_mesh(
@@ -25,30 +30,28 @@ def create_plotter_vtksz():
         show_edges=True,
         edge_color="#001100",
         ambient=0.2,
+        show_scalar_bar = False
     )
 
     ## Some final touches
-    plotter.background_color = "white"
+    plotter.background_color = "pink"
     plotter.view_isometric()
 
-    plotter.export_vtksz("test1.zip")
+    return plotter
 
-## Pass a key to avoid re-rendering at each time something changes in the page
-@st.cache_data
-def get_plotter_vtksz(fname= "test.zip"): 
-    with open(fname, 'rb') as f:
-        data = f.read()
-    return data
+async def main():
 
+    st.set_page_config(page_icon="🧊", layout="wide")
+    st.title("🧊 `stpyvista`")
+    st.sidebar.header("Show PyVista 3D visualizations in Streamlit")
+    
+    plotter = create_plotter()
 
-data = get_plotter_vtksz()
+    if "data" not in st.session_state:
+        st.session_state.data = await export_vtksz(plotter)
 
-with st.form("3D window"):
-    camera = experimental_vtkjs(data)
-    submit = st.form_submit_button("Capture camera")
+    camera = experimental_vtkjs(st.session_state.data, key="view")
+    st.sidebar.json(camera)
 
-if submit:
-    st.json(camera)
-
-if st.button("Generate"):
-    create_plotter_vtksz()
+if __name__ == "__main__":
+    asyncio.run(main())

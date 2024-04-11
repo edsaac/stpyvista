@@ -3,7 +3,6 @@
 from io import StringIO
 from pathlib import Path
 from typing import Optional, Literal
-from tempfile import NamedTemporaryFile
 import base64
 
 import streamlit.components.v1 as components
@@ -19,13 +18,6 @@ pn.extension("vtk", sizing_mode="stretch_both")
 
 # Tell streamlit that there is a component called stpyvista,
 # and that the code to display that component is in the "frontend" folder
-# frontend_dir = (Path(__file__).parent / "frontend").absolute()
-# _component_func = components.declare_component("stpyvista", path=str(frontend_dir))
-
-
-experimental_frontend_dir = (Path(__file__).parent / "vanilla_vtkjs").absolute()
-_exp_component_func = components.declare_component("experimental_vtkjs", path=str(experimental_frontend_dir))
-
 
 class stpyvistaTypeError(TypeError):
     pass
@@ -34,13 +26,11 @@ class stpyvistaTypeError(TypeError):
 class stpyvistaValueError(ValueError):
     pass
 
-def experimental_vtkjs(vtksz_data: str,  key: Optional[str] = None):
+experimental_frontend_dir = (Path(__file__).parent / "vanilla_vtkjs").absolute()
+_exp_component_func = components.declare_component("experimental_vtkjs", path=str(experimental_frontend_dir))
 
-    # ## Export to vtksz
-    # with NamedTemporaryFile(suffix=".vtksz") as f:
-    #     plotter.export_vtksz(f.name, format="zip")
-    #     f.seek(0)
-    #     vtksz_bytes = f.read()
+def experimental_vtkjs(vtksz_data: bytes,  key: Optional[str] = None):
+
     base64_str = base64.b64encode(vtksz_data).decode().replace("\n", "")
 
     component_value = _exp_component_func(
@@ -50,6 +40,10 @@ def experimental_vtkjs(vtksz_data: str,  key: Optional[str] = None):
     )
 
     return component_value
+
+
+frontend_dir = (Path(__file__).parent / "frontend").absolute()
+_component_func = components.declare_component("stpyvista", path=str(frontend_dir))
 
 def stpyvista(
     plotter: Plotter,

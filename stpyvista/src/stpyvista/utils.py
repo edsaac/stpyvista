@@ -46,3 +46,4 @@ def start_xvfb():
             f"{is_xvfb_running.stdout}"
             f"{is_xvfb_running.stderr}"
         )
+

@@ -1,4 +1,4 @@
 streamlit
 pyvista
 bokeh
-panel
+panel<1.4.0

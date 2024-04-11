@@ -1,6 +1,6 @@
 import streamlit as st
 import pyvista as pv
-from stpyvista import experimental_vtkjs
+from stpyvista import experimental_vtkjs, stpyvista
 from stpyvista.export import export_vtksz
 import asyncio
 
@@ -14,13 +14,13 @@ def create_plotter(dummy:str = "sphere"):
     mesh["My scalar"] = z
 
     # Scalar bar configuration
-    scalar_bar_kwargs = dict(
-        font_family='arial',
-        interactive=True,
-        position_x = 0.05,
-        position_y = 0.05,
-        vertical=False
-    )
+    # scalar_bar_kwargs = dict(
+    #     font_family='arial',
+    #     interactive=True,
+    #     position_x = 0.05,
+    #     position_y = 0.05,
+    #     vertical=False
+    # )
 
     ## Add mesh to the plotter
     plotter.add_mesh(
@@ -43,15 +43,21 @@ async def main():
 
     st.set_page_config(page_icon="🧊", layout="wide")
     st.title("🧊 `stpyvista`")
-    st.sidebar.header("Show PyVista 3D visualizations in Streamlit")
+    st.write("**Show PyVista 3D visualizations in Streamlit**")
     
     plotter = create_plotter()
 
     if "data" not in st.session_state:
         st.session_state.data = await export_vtksz(plotter)
+    
+    lcol, rcol = st.columns([1,4])
+    with rcol:
+        camera = experimental_vtkjs(st.session_state.data, key="experimental-stpv")
+    with lcol:
+        st.json(camera)
 
-    camera = experimental_vtkjs(st.session_state.data, key="view")
-    st.sidebar.json(camera)
+    # st.header("Using panel-based export")
+    # stpyvista(plotter, key="stpy-sphere")
 
 if __name__ == "__main__":
     asyncio.run(main())

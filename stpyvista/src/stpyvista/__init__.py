@@ -43,7 +43,7 @@ def experimental_vtkjs(vtksz_data: bytes, key: Optional[str] = None):
     
     Returns
     -------
-    dict
+    str
         A stringified JSON with camera view properties.
     """
     

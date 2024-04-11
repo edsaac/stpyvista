@@ -43,21 +43,21 @@ async def main():
 
     st.set_page_config(page_icon="🧊", layout="wide")
     st.title("🧊 `stpyvista`")
-    st.write("**Show PyVista 3D visualizations in Streamlit**")
+    st.write("*Show PyVista 3D visualizations in Streamlit*")
     
     plotter = create_plotter()
 
     if "data" not in st.session_state:
         st.session_state.data = await export_vtksz(plotter)
     
-    lcol, rcol = st.columns([1,4])
+    lcol, rcol = st.columns(2)
     with rcol:
+        "🌎 3D Model"
         camera = experimental_vtkjs(st.session_state.data, key="experimental-stpv")
+        
     with lcol:
+        "🎥 Camera"
         st.json(camera)
-
-    # st.header("Using panel-based export")
-    # stpyvista(plotter, key="stpy-sphere")
 
 if __name__ == "__main__":
     asyncio.run(main())

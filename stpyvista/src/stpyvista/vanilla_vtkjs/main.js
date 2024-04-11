@@ -10,7 +10,7 @@ function post_camera_state() {
         parallel_projection: camera.getParallelProjection()
     };
 
-    Streamlit.setComponentValue(JSON.stringify(cameraProperties));
+    Streamlit.setComponentValue(cameraProperties);
 }
 
 function onRender(event) {
@@ -28,11 +28,11 @@ function onRender(event) {
         const interactor = renderWindow.getInteractor();
         
         interactor.onLeftButtonRelease((event) => {
-            post_camera_state() 
+            post_camera_state();
         });
         
         interactor.onMouseWheel((event) => {
-            post_camera_state() 
+            post_camera_state();
         });
         window.rendered = true;
         Streamlit.setFrameHeight('300');

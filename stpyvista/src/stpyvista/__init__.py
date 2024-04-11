@@ -43,8 +43,8 @@ def experimental_vtkjs(vtksz_data: bytes, key: Optional[str] = None):
     
     Returns
     -------
-    str
-        A stringified JSON with camera view properties.
+    dict
+        A dictionary with the current Camera view properties.
     """
     
     base64_str = base64.b64encode(vtksz_data).decode().replace("\n", "")

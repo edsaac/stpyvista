@@ -1,10 +1,9 @@
+import asyncio
 import streamlit as st
 import pyvista as pv
-from pyvista.plotting import Plotter
 
 from stpyvista import experimental_vtkjs
 from stpyvista.export import export_vtksz
-import asyncio
 
 @st.cache_resource
 def create_plotter(dummy:str = "sphere"):
@@ -30,7 +29,6 @@ def create_plotter(dummy:str = "sphere"):
     ## Some final touches
     plotter.view_isometric()
     plotter.background_color = "pink"
-    plotter.add_legend()
     
     return plotter
 

@@ -32,25 +32,26 @@ _exp_component_func = components.declare_component(
 )
 
 
-def experimental_vtkjs(vtksz_data: bytes, key: Optional[str] = None):
+def experimental_vtkjs(vtksz_data: bytes, height: int = 400, key: Optional[str] = None) -> dict:
     """
     Renders an interactive Pyvista Plotter in streamlit.
-    
+
     Parameters
     ----------
     vtksz_data: bytes
         Data from a vtksz in zip format.
-    
+
     Returns
     -------
     dict
         A dictionary with the current Camera view properties.
     """
-    
+
     base64_str = base64.b64encode(vtksz_data).decode().replace("\n", "")
 
     component_value = _exp_component_func(
         plotter_data=base64_str,
+        height=str(height),
         key=key,
         default=0,
     )

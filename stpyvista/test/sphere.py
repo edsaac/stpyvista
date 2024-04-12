@@ -12,39 +12,26 @@ def create_plotter(dummy:str = "sphere"):
     # Initialize a plotter object
     plotter = pv.Plotter(shape=(2,1))
     mesh = pv.Sphere(radius=1.0, center=(0, 0, 0))
-    mesh2 = pv.Sphere(radius=0.3, center=(1.1, 1.1, 0.8))
     
     x, y, z = mesh.cell_centers().points.T
     mesh["My scalar"] = z
 
-        
     ## Add mesh to the plotter
-    for i in range(2):
-        plotter.subplot(i, 0) 
-        plotter.add_mesh(
-            mesh,
-            scalars="My scalar",
-            cmap="rainbow",
-            show_edges=True,
-            edge_color="#001100",
-            ambient=0.2,
-            show_scalar_bar = False
-        )
-        plotter.view_isometric()
-        
-    actor = plotter.add_mesh(mesh2, name="small_sphere")
-
-    ## Some final touches
-    plotter.background_color = "pink"
-    plotter.link_views()
-
-    # Add events
-    def callback(step):
-        actor.position = [step / 100.0, step / 100.0, 0]
-    
-    plotter.add_timer_event(
-        max_steps=200, duration=500, callback=callback
+    plotter.add_mesh(
+        mesh,
+        scalars="My scalar",
+        cmap="prism",
+        show_edges=True,
+        edge_color="#001100",
+        ambient=0.2,
+        show_scalar_bar = False
     )
+        
+    ## Some final touches
+    plotter.view_isometric()
+    plotter.background_color = "pink"
+    plotter.add_legend()
+    
     return plotter
 
 async def main():
@@ -61,7 +48,7 @@ async def main():
     lcol, rcol = st.columns(2)
     with rcol:
         "🌎 3D Model"
-        camera = experimental_vtkjs(st.session_state.data)#, key="experimental-stpv")
+        camera = experimental_vtkjs(st.session_state.data, key="experimental-stpv")
         
     with lcol:
         "🎥 Camera"

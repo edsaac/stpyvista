@@ -26,6 +26,6 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/edsaac/stpyvista"
-"Bug Tracker" = "https://github.com/edsaac/stpyvista/issues"
-"Examples" = "https://stpyvista.streamlit.app/"
+"Homepage" = "https://stpyvista.streamlit.app/",
+"Source Code" = "https://github.com/edsaac/stpyvista", 
+"Bug Tracker" = "https://github.com/edsaac/stpyvista/issues",

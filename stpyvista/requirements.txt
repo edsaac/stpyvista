@@ -1,4 +1,0 @@
-streamlit
-pyvista
-bokeh
-panel<1.4.0

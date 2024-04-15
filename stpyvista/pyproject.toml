@@ -8,7 +8,7 @@ version = "0.0.17"
 authors = [
   { name="Edwin Saavedra C.", email="esaavedrac@u.northwestern.edu" },
 ]
-description = "Streamlit component to render pyvista 3D visualizations"
+description = "Streamlit component to render PyVista 3D visualizations"
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
@@ -26,6 +26,6 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://stpyvista.streamlit.app/",
-"Source Code" = "https://github.com/edsaac/stpyvista", 
-"Bug Tracker" = "https://github.com/edsaac/stpyvista/issues",
+"Homepage" = "https://stpyvista.streamlit.app/"
+"Source Code" = "https://github.com/edsaac/stpyvista"
+"Bug Tracker" = "https://github.com/edsaac/stpyvista/issues"

@@ -4,12 +4,15 @@ from io import StringIO
 from pathlib import Path
 from typing import Optional, Literal
 import base64
+import xml.dom.minidom
 
+import streamlit as st
 import streamlit.components.v1 as components
+
 from pyvista.plotting import Plotter
+from pyvista import DataSet
 
 import panel as pn
-
 from bokeh.resources import CDN, INLINE
 
 pn.extension("vtk", sizing_mode="stretch_both")
@@ -32,7 +35,9 @@ _exp_component_func = components.declare_component(
 )
 
 
-def experimental_vtkjs(vtksz_data: bytes, height: int = 400, key: Optional[str] = None) -> dict:
+def experimental_vtkjs(
+    vtksz_data: bytes, height: int = 400, key: Optional[str] = None
+) -> dict:
     """
     Renders an interactive Pyvista Plotter in streamlit.
 
@@ -147,6 +152,77 @@ def stpyvista(
 
     else:
         raise stpyvistaTypeError(f"{plotter} is not a `pyvista.Plotter` instance. ")
+
+
+def dataview(obj: DataSet):
+    """
+    Renders the HTML representation of a Pyvista/VTK dataset.
+
+    Parameters
+    ----------
+    element: pv.DataSet
+        Pyvista element with some data to show.
+
+    Returns
+    -------
+    None
+    """
+
+    def assemble_details(title: str, table: str) -> str:
+        return f"<details open><summary><em>{title}</em></summary>{table}</details>"
+
+    try:
+        # Look up an HTML representation and arange in details tags
+
+        dom = xml.dom.minidom.parseString(obj._repr_html_())
+        tables = dom.getElementsByTagName("table")
+
+        css = """
+            <style>
+            details {
+                padding: 6px;
+                margin-bottom: 5px; 
+                border: 1px solid #eeeeee;
+                background-color: transparent;
+                border-radius: 10px;
+            }
+            summary {
+                background-color: transparent;
+                opacity: 60%;
+                padding: 5px;
+            }
+            summary::marker {
+                color: purple;
+                font-size: 1.1em;
+            }
+            </style>
+        """
+
+        html = StringIO("""<div class="stpv-dataview">""")
+
+        if len(tables) == 1:
+            html.write(assemble_details("Header", tables[0].toprettyxml()))
+
+        else:
+            headers = (
+                dom.getElementsByTagName("table")[0]
+                .getElementsByTagName("tr")[0]
+                .getElementsByTagName("th")
+            )
+
+            for title, table in zip(headers, tables[1:]):
+                html.write(
+                    assemble_details(title.firstChild.nodeValue, table.toprettyxml())
+                )
+
+        html.write(css + "</div>")
+
+        # Render in streamlit
+        st.html(html.getvalue())
+
+    except AttributeError:
+        # Defaults to streamlit's write function
+        st.write(obj)
 
 
 def main():

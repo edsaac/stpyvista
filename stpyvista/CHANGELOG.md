@@ -1,5 +1,8 @@
 # Changelog
 
+## [v 0.0.18] - 2024-05-17
+- Introduce `dataview` to display HTML representation of pyvista data
+
 ## [v 0.0.17] - 2024-04-11
 - Rewrite buffer using context manager 
 - Introduce and experimental viewer based on trame and vanilla vtk-js

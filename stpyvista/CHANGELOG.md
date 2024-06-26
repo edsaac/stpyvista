@@ -1,6 +1,6 @@
 # Changelog
 
-## [v 0.0.19] - 2024-05-17
+## [v 0.0.19] - 2024-06-26
 - Make panel take the vtkXOpenGLRenderWindow directly
 
 ## [v 0.0.18] - 2024-05-17

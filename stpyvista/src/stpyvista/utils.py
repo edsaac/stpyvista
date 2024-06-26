@@ -3,6 +3,7 @@ from subprocess import run
 from functools import partial
 from pyvista import start_xvfb as pv_start_xvfb
 from streamlit.runtime.scriptrunner import get_script_run_ctx
+from datetime import datetime
 
 _run_command = partial(run, capture_output=True, text=True)
 
@@ -36,11 +37,16 @@ def start_xvfb():
         )
 
     is_xvfb_running = _run_command(["pgrep", "Xvfb"])
-
+    print(datetime.now().strftime(r"%y-%m-%d %H:%M:%S"))
+    
     if is_xvfb_running.returncode == 1:
+        print("--> Initialize")
         pv_start_xvfb()
 
-    elif is_xvfb_running.returncode != 0:
+    elif is_xvfb_running.returncode == 0:
+        print(f"--> PID: {is_xvfb_running.stdout.strip()}")
+
+    else:
         raise OSError(
             "Something went wrong checking for the machine processes"
             f"{is_xvfb_running.stdout}"

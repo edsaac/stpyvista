@@ -6,7 +6,7 @@ from stpyvista import stpyvista, dataview
 def put_in_plotter(actor: pv.DataSet):
     plotter = pv.Plotter()
     plotter.window_size = (300, 300)
-    plotter.add_mesh(actor, color='purple', line_width=10)
+    plotter.add_mesh(actor, line_width=10)
     plotter.view_isometric()
     return plotter
 
@@ -27,9 +27,16 @@ def surface():
     y = np.arange(-10, 10, 0.5)
     x, y = np.meshgrid(x, y)
     z = np.sin(np.sqrt(x**2 + y**2))
+    
     surf = pv.StructuredGrid(x, y, z)
+    
     x, y, z = surf.cell_centers().points.T
-    surf["my_scalar"] = x * y * z
+    surf["x"] = x
+    surf["y"] = y
+    surf["z"] = z
+    surf["r"] = np.sqrt(x**2 + y**2 + z**2)
+
+    surf.set_active_scalars("r")
 
     return surf
 

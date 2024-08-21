@@ -75,10 +75,10 @@ stpyvista(plotter, key="pv_cube")
 
 ### 🎈 Deploying to Streamlit Community Cloud
 
-- By default, Community Cloud will run Python 3.11 🎈. Check this on New App → Advanced settings... → Python version.
+- By default, Community Cloud will run Python 3.12 🎈. Check this on New App → Advanced settings... → Python version.
 - Add `stpyvista` to the `requirements.txt` file.
 - Install `procps`, `libgl1-mesa-glx` and `xvfb` by adding them to the `packages.txt` file.
-- The Community Cloud is a headless machine and Pyvista requires a virtual framebuffer to work. `stpyvista.utils.start_xvfb` checks if Xvfb is running and [starts it](https://docs.pyvista.org/version/stable/api/utilities/_autosummary/pyvista.start_xvfb) if it was not. 
+- The Community Cloud is a Debian headless machine and Pyvista requires a virtual framebuffer to work. `stpyvista.utils.start_xvfb` checks if Xvfb is running and [starts it](https://docs.pyvista.org/version/stable/api/utilities/_autosummary/pyvista.start_xvfb) if it was not. 
 
   ```python
   from stpyvista.utils import start_xvfb

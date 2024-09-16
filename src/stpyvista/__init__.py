@@ -123,7 +123,7 @@ def stpyvista(
 
         width, height = plotter.window_size
 
-        geo_pan_pv = pn.panel(plotter.ren_win, **panel_kwargs)
+        geo_pan_pv = pn.pane.VTK(plotter.ren_win, **panel_kwargs)
 
         # Check bokeh_resources
         if bokeh_resources not in ("CDN", "INLINE"):

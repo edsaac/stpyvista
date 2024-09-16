@@ -1,7 +1,12 @@
 # Changelog
 
+## [v 0.0.19] - 2024-06-26
+- Make panel take the vtkXOpenGLRenderWindow directly
+
 ## [v 0.0.18] - 2024-05-17
 - Introduce `dataview` to display HTML representation of pyvista data
+- Add example of dataview in stpyvista demo app
+- Organize logging util 
 
 ## [v 0.0.17] - 2024-04-11
 - Rewrite buffer using context manager 

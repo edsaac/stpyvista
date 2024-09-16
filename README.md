@@ -52,7 +52,7 @@ from stpyvista import stpyvista
 plotter = pv.Plotter(window_size=[400,400])
 
 ## Create a mesh with a cube 
-mesh = pv.Cube(center=(0,0,0))
+mesh = pv.Cube()
 
 ## Add some scalar field associated to the mesh
 mesh['my_scalar'] = mesh.points[:, 2] * mesh.points[:, 0]
@@ -75,10 +75,10 @@ stpyvista(plotter, key="pv_cube")
 
 ### 🎈 Deploying to Streamlit Community Cloud
 
-- By default, Community Cloud will run Python 3.8, make sure to deploy using Python 3.10 or 3.11 (New App → Advanced settings... → Python version).
+- By default, Community Cloud will run Python 3.12 🎈. Check this on New App → Advanced settings... → Python version.
 - Add `stpyvista` to the `requirements.txt` file.
 - Install `procps`, `libgl1-mesa-glx` and `xvfb` by adding them to the `packages.txt` file.
-- The Community Cloud is a headless machine and Pyvista requires a virtual framebuffer to work. `stpyvista.utils.start_xvfb` checks if Xvfb is running and [starts it](https://docs.pyvista.org/version/stable/api/utilities/_autosummary/pyvista.start_xvfb) if it was not. 
+- The Community Cloud is a Debian headless machine and Pyvista requires a virtual framebuffer to work. `stpyvista.utils.start_xvfb` checks if Xvfb is running and [starts it](https://docs.pyvista.org/version/stable/api/utilities/_autosummary/pyvista.start_xvfb) if it was not. 
 
   ```python
   from stpyvista.utils import start_xvfb
@@ -92,9 +92,12 @@ stpyvista(plotter, key="pv_cube")
 
 ### 🚩 Known issues
 - [ ] [`NSInternalInconsistencyException`](https://github.com/edsaac/stpyvista/issues/14) thrown when running on macOS. Current solution is to deploy using a VM.
-- [ ] [`RuntimeError`](https://github.com/edsaac/stpyvista/issues/17) thrown when running Python 3.9. Upgrading to `panel>=1.4.0` fixes this issue. Alternatively,  run using Python 3.10 or higher.
+
+#### 🍹 Solved issues 
+- [x] [`RuntimeError`](https://github.com/edsaac/stpyvista/issues/17) thrown when running Python 3.9. Upgrading to `panel>=1.4.0` or using Python 3.10 fixes this.
 - [x] [Buggy colormaps](https://github.com/edsaac/stpyvista/issues/19) when using `panel==1.4.0`. This [issue](https://github.com/holoviz/panel/issues/6627) was fixed with `panel==1.4.1`.
 - [x] [`cmocean==4.0.1`](https://github.com/matplotlib/cmocean/releases/tag/v4.0.1) will raise an exception while trying to register its colormaps to matplotlib, making PyVista to crash. This [issue](https://github.com/matplotlib/cmocean/issues/107) was fixed in `cmocean==4.0.3`.
+      
 ****
 
 ### 🍏 Also check

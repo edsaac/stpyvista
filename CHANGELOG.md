@@ -1,5 +1,11 @@
 # Changelog
 
+## [v 0.0.20] - 2024-09-16
+- Reorganize repository folder structure
+- Replace "header" with pyvista object type name in dataview
+- Refactor test for experimental_vtkjs
+- Add trame as an optional dependency for experimental_vtkjs
+
 ## [v 0.0.19] - 2024-06-26
 - Make panel take the vtkXOpenGLRenderWindow directly
 

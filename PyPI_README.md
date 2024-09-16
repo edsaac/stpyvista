@@ -16,3 +16,7 @@ pip install stpyvista
 
 [https://stpyvista.streamlit.app](https://stpyvista.streamlit.app)
 
+****
+### 🛠️ Source code
+
+[https://github.com/edsaac/stpyvista](https://github.com/edsaac/stpyvista)

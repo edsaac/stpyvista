@@ -4,26 +4,21 @@ build-backend = "hatchling.build"
 
 [project]
 name = "stpyvista"
-version = "0.0.19"
+version = "0.0.20"
 authors = [
-  { name="Edwin Saavedra C.", email="esaavedrac@u.northwestern.edu" },
+  { name = "Edwin Saavedra C.", email = "esaavedrac@u.northwestern.edu" },
 ]
 description = "Streamlit component to render PyVista 3D visualizations"
-readme = "README.md"
+readme = "PyPI_README.md"
 requires-python = ">=3.9"
 classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-    "Operating System :: POSIX :: Linux",
-    "Topic :: Scientific/Engineering :: Visualization"
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Operating System :: POSIX :: Linux",
+  "Topic :: Scientific/Engineering :: Visualization",
 ]
 
-dependencies = [
-    "streamlit",
-    "pyvista",
-    "bokeh",
-    "panel"
-]
+dependencies = ["streamlit", "pyvista", "bokeh", "panel"]
 
 [project.urls]
 "Homepage" = "https://stpyvista.streamlit.app/"

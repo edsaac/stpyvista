@@ -117,41 +117,39 @@ def stpyvista(
 
     """
 
-    if isinstance(plotter, Plotter):
-        if panel_kwargs is None:
-            panel_kwargs = dict()
+    if not isinstance(plotter, Plotter):
+        raise stpyvistaTypeError(f"{plotter} is not a `pyvista.Plotter` instance.")
 
-        width, height = plotter.window_size
+    if panel_kwargs is None:
+        panel_kwargs = dict()
 
-        geo_pan_pv = pn.pane.VTK(plotter.ren_win, **panel_kwargs)
+    width, height = plotter.window_size
+    vtk_pane = pn.pane.VTK(plotter.ren_win, **panel_kwargs)
 
-        # Check bokeh_resources
-        if bokeh_resources not in ("CDN", "INLINE"):
-            raise stpyvistaValueError(
-                f'"{bokeh_resources}" is not a valid bokeh resource. '
-                'Valid options are "CDN" or "INLINE".'
-            )
-
-        # Create HTML file
-        with StringIO() as model_bytes:
-            geo_pan_pv.save(model_bytes, resources=BOKEH_RESOURCES[bokeh_resources])
-            panel_html = model_bytes.getvalue()
-
-        component_value = _component_func(
-            panel_html=panel_html,
-            height=height,
-            width=width,
-            horizontal_align=horizontal_align,
-            use_container_width=1 if use_container_width else 0,
-            bgcolor=plotter.background_color.hex_rgba,
-            key=key,
-            default=0,
+    # Check bokeh_resources
+    if bokeh_resources not in ("CDN", "INLINE"):
+        raise stpyvistaValueError(
+            f'"{bokeh_resources}" is not a valid bokeh resource. '
+            'Valid options are "CDN" or "INLINE".'
         )
 
-        return component_value
+    # Create HTML file
+    with StringIO() as model_bytes:
+        vtk_pane.save(model_bytes, resources=BOKEH_RESOURCES[bokeh_resources])
+        panel_html = model_bytes.getvalue()
 
-    else:
-        raise stpyvistaTypeError(f"{plotter} is not a `pyvista.Plotter` instance. ")
+    component_value = _component_func(
+        panel_html=panel_html,
+        height=height,
+        width=width,
+        horizontal_align=horizontal_align,
+        use_container_width=1 if use_container_width else 0,
+        bgcolor=plotter.background_color.hex_rgba,
+        key=key,
+        default=0,
+    )
+
+    return component_value
 
 
 def dataview(obj: DataSet):
@@ -225,9 +223,5 @@ def dataview(obj: DataSet):
         st.write(obj)
 
 
-def main():
-    pass
-
-
 if __name__ == "__main__":
-    main()
+    pass

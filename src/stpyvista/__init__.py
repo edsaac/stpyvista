@@ -167,6 +167,9 @@ def dataview(obj: DataSet):
     """
 
     def assemble_details(title: str, table: str) -> str:
+        if title.lower() == "header":
+            title = type(obj).__name__
+
         return f"<details open><summary><em>{title}</em></summary>{table}</details>"
 
     try:
@@ -199,7 +202,7 @@ def dataview(obj: DataSet):
         html = StringIO("""<div class="stpv-dataview">""")
 
         if len(tables) == 1:
-            html.write(assemble_details("Header", tables[0].toprettyxml()))
+            html.write(assemble_details(type(obj).__name__, tables[0].toprettyxml()))
 
         else:
             headers = (

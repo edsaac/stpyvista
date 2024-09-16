@@ -17,8 +17,11 @@ classifiers = [
   "Operating System :: POSIX :: Linux",
   "Topic :: Scientific/Engineering :: Visualization",
 ]
-
+keywords = ["pyvista", "3D", "streamlit", "panel", "visualization"]
 dependencies = ["streamlit", "pyvista", "bokeh", "panel"]
+
+[project.optional-dependencies]
+trame = ["trame", "trame-vuetify", "trame-vtk"]
 
 [project.urls]
 "Homepage" = "https://stpyvista.streamlit.app/"

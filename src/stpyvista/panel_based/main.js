@@ -61,8 +61,8 @@ function onRender(event) {
                     stpyvistaframe.width = width + 16;
                 }
 
-                stpyvistaframe.height = height + 20;
-                Streamlit.setFrameHeight(height + 24);
+                stpyvistaframe.height = height;
+                Streamlit.setFrameHeight(height + 4);
             }
         }
 
@@ -71,8 +71,8 @@ function onRender(event) {
         stpyvistaframe.srcdoc = panel_html;
         stpyvistaframe.scrolling = "yes";
 
-        stpyvistaframe.height = height + 20;
-        Streamlit.setFrameHeight(height + 24);
+        stpyvistaframe.height = height;
+        Streamlit.setFrameHeight(height);
 
         // Send some value to python 
         // Not very useful at the moment but keep it for later

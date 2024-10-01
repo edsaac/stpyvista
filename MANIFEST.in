@@ -1,3 +1,0 @@
-recursive-include src/st_pyvista/frontend *
-include README.md
-include LICENSE

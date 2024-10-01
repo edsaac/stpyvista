@@ -27,3 +27,6 @@ trame = ["trame", "trame-vuetify", "trame-vtk"]
 "Homepage" = "https://stpyvista.streamlit.app/"
 "Source Code" = "https://github.com/edsaac/stpyvista"
 "Bug Tracker" = "https://github.com/edsaac/stpyvista/issues"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/test", "/assets"]

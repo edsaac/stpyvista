@@ -91,6 +91,7 @@ stpyvista(plotter, key="pv_cube")
 ****
 
 ### 🚩 Known issues
+- [ ] [**`cadquery`**](https://github.com/edsaac/stpyvista/issues/25) conflicts: `cadquery` bundles an outdated version of `vtk`, which ends up conflicting with the `vtk` version that `pyvista` requires. Current solution is to install `stpyvista` **before** cadquery in a virtual environment. 
 - [ ] [`NSInternalInconsistencyException`](https://github.com/edsaac/stpyvista/issues/14) thrown when running on macOS. Current solution is to deploy using a VM.
 
 #### 🍹 Solved issues 

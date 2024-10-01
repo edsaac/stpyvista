@@ -2,7 +2,7 @@ import asyncio
 import streamlit as st
 import pyvista as pv
 
-from stpyvista import experimental_vtkjs
+from stpyvista import stpyvista
 from stpyvista.export import export_vtksz
 
 
@@ -47,7 +47,7 @@ async def main():
     with lcol:
         with st.form("experimental_vtkjs"):
             "🌎 3D Model"
-            camera = experimental_vtkjs(st.session_state.data, key="experimental-stpv")
+            camera = stpyvista(st.session_state.data, key="experimental-stpv")
             grab_camera = st.form_submit_button(":camera: Grab view state")
 
     with rcol:

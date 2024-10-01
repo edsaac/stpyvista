@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "stpyvista"
-version = "0.0.20"
+version = "0.1.0"
 authors = [
   { name = "Edwin Saavedra C.", email = "esaavedrac@u.northwestern.edu" },
 ]

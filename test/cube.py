@@ -34,6 +34,7 @@ stpyvista(
     use_container_width=chk,
     panel_kwargs=dict(orientation_widget=True),
     horizontal_align=align,
+    key=f"cube_{chk}_{align}",
 )
 
 ## Add something else below
@@ -43,6 +44,4 @@ cols = st.columns([1, 2, 1], gap="small")
 
 for i, col in enumerate(cols):
     with col:
-        stpyvista(
-            plotter, use_container_width=chk, bokeh_resources="CDN", key=f"cube_{i}"
-        )
+        stpyvista(plotter, use_container_width=chk, key=f"cube_{i}")

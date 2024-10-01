@@ -2,8 +2,7 @@ import asyncio
 import streamlit as st
 import pyvista as pv
 
-from stpyvista import stpyvista
-from stpyvista.export import export_vtksz
+from stpyvista.vtkjs_backend import stpyvista, export_vtksz
 
 
 @st.cache_resource

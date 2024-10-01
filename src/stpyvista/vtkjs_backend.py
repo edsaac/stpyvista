@@ -8,11 +8,10 @@ from trame.app import get_server
 from trame.widgets import (
     vuetify as vuetify,
 )
-
 from trame.widgets.vtk import VtkLocalView
 from trame.ui.vuetify import SinglePageLayout
-
 from pyvista.plotting import Plotter
+
 
 # Tell streamlit that there is a component called `experimental_vtkjs`,
 # and that the code to display that component is in the "vanilla_vtkjs" folder

@@ -3,6 +3,8 @@
 ## [v 0.1.0] - 2024-10-01
 - Support trame and panel as html exporting backends
 - Reorganize repository folder structure
+- Move `stpyvista.export` to `stpyvista.vtkjs_backend`
+- Rename `stpyvista.experimental_vtkjs` to `stpyvista.vtkjs_backend.stpyvista`
 
 ## [v 0.0.20] - 2024-09-16
 - Reorganize repository folder structure

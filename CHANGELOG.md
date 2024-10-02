@@ -1,5 +1,8 @@
 # Changelog
 
+## [v 0.1.1] - 2024-10-02
+- Update docstrings and add TypeDicts for panel options
+
 ## [v 0.1.0] - 2024-10-01
 - Support trame and panel as html exporting backends
 - Reorganize repository folder structure

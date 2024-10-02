@@ -3,6 +3,7 @@ import streamlit as st
 from stpyvista.panel_backend import stpyvista as stpv_panel
 from stpyvista.trame_backend import stpyvista as stpv_trame
 
+
 st.title("🧊 `stpyvista`")
 st.subheader("Show PyVista 3D visualizations in Streamlit")
 
@@ -34,10 +35,10 @@ plotter.view_isometric()
 plotter.background_color = "#dddddd"
 
 cols = st.columns(2, vertical_alignment="center")
-with cols[0]:
-    st.write("**Using Panel (default)**")
-    stpv_panel(plotter, key="stpv_panel")
-
 with cols[1]:
     st.write("**Using Trame**")
     stpv_trame(plotter, key="stpv_trame")
+
+with cols[0]:
+    st.write("**Using Panel (default)**")
+    stpv_panel(plotter, key="stpv_panel")

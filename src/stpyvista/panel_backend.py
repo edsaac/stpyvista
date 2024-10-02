@@ -1,5 +1,11 @@
 from io import StringIO
-from typing import Optional, Literal
+from typing import (
+    Optional,
+    Literal,
+    TypedDict,
+    Required,
+    NotRequired,
+)
 
 import panel as pn
 import streamlit.components.v1 as components
@@ -18,16 +24,80 @@ _component_func = components.declare_component(
 )
 
 
+class PanelTicker(TypedDict):
+    """
+    A `PanelTicker` is a dictionary that contains:
+    - **ticks** : `list[float]`, required.
+        Positions in the scene coordinates of the corresponding axis' ticks.
+    - **labels** : `list[str]`, optional.
+        Label displayed respectively to the **ticks** positions.
+        If **labels** are not defined, they are inferred from the **ticks** list.
+    """
+
+    ticks: list[float]
+    labels: NotRequired[list[str]]
+
+
+class PanelAxesConfig(TypedDict, total=False):
+    """
+    A `PanelAxesConfig` is a dictionary containing the parameters of the
+    axes to construct in the 3D view. It **must contain**:
+    - **xticker**: `PanelTicker`, required
+    - **yticker**: `PanelTicker`, required
+    - **zticker**: `PanelTicker`, required
+
+    Other optional parameters for `PanelAxesConfig` are:
+    - **digits** : `int`
+        number of decimal digits when `ticks` are converted to `labels`.
+    - **fontsize** : `int`
+        size in pts of the ticks labels.
+    - **show_grid** : `bool`, default is True
+        if true the axes grid is visible.
+    - **grid_opacity** : `float`, between 0-1
+        defines the grid opacity.
+    - **axes_opacity** : `float`, between 0-1
+        defines the axes lines opacity.
+    """
+
+    xticker: Required[PanelTicker]
+    yticker: Required[PanelTicker]
+    zticker: Required[PanelTicker]
+    origin: tuple[float, float, float]
+    fontsize: int
+    show_grid: bool
+    grid_opacity: float
+    axes_opacity: float
+    digits: int
+
+
+class PanelVTKKwargs(TypedDict, total=False):
+    """
+    A `PanelVTKKwargs` is a dictionary containing the parameters of the
+    vtk pane to construct in the 3D view. Optional parameters are:
+    - **axes**: `PanelAxesConfig`
+        parameters of the axes to construct in the 3D view.
+    - **orientation_widget** : `bool`
+        show the xyz axis indicator
+    - **interactive_orientation_widget** : `bool`
+        show and interactive xyz axis indicator
+    """
+
+    axes: PanelAxesConfig
+    orientation_widget: bool
+    interactive_orientation_widget: bool
+
+
 def stpyvista(
     plotter: Plotter,
     use_container_width: bool = True,
     horizontal_align: Literal["center", "left", "right"] = "center",
-    panel_kwargs: Optional[dict] = None,
+    panel_kwargs: Optional[PanelVTKKwargs] = None,
     bokeh_resources: Literal["CDN", "INLINE"] = "INLINE",
     key: Optional[str] = None,
 ) -> None:
     """
-    Renders an interactive Pyvista Plotter in streamlit.
+    Renders an interactive Pyvista Plotter in streamlit using the 
+    panel backend.
     
     Parameters
     ----------
@@ -43,35 +113,29 @@ def stpyvista(
         Horizontal alignment of the stpyvista component. This parameter is ignored if 
         `use_container_width = True`. Defaults to `"center"`.
 
-    panel_kwargs : dict | None = None
-        Optional keyword parameters to pass to pn.panel(). Check: 
-        https://panel.holoviz.org/api/panel.pane.vtk.html for details. Here are a couple
-        of useful ones:
+    panel_kwargs : Optional[PanelVTKKwargs | dict] = None
+        Optional keyword parameters to pass to pn.panel(). Check the `PanelVTKKwargs` 
+        documentation for details. Here are a couple of useful ones:
         
+        axes: PanelAxesConfig
+            Parameters of the axes to construct in the 3D view. 
+
         orientation_widget : bool
             Show the xyz axis indicator
 
         interactive_orientation_widget: bool
             Show and interactive xyz axis indicator
 
-        axes: dict
-            Parameters of the axes to construct in the 3D view. Check the example
-            at https://stpyvista.streamlit.app/?gallery=axes
+        See the example guide at https://stpyvista.streamlit.app/?gallery=axes
 
-    bokeh_resources: Literal["CDN", "INLINE"] = "Inline"
+    bokeh_resources: Literal["CDN", "INLINE"] = "INLINE"
         Source of the BokehJS configuration. Check:
-        https://docs.bokeh.org/en/latest/docs/reference/resources.html for details. \
-        Defaults to "INLINE" 
+        https://docs.bokeh.org/en/latest/docs/reference/resources.html for details.
 
-    key: str | None
+    key: Optional[str] = None
         An optional key that uniquely identifies this component. If this is
         None, and the component's arguments are changed, the component will
         be re-mounted in the Streamlit frontend and lose its current state.
-    
-    Returns
-    -------
-    None
-
     """
 
     if not isinstance(plotter, Plotter):

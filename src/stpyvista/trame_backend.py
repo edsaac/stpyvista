@@ -23,12 +23,6 @@ def stpyvista(plotter: Plotter, **kwargs) -> None:
     if not isinstance(plotter, Plotter):
         raise TypeError(f"{plotter} is not a `pyvista.Plotter` instance.")
 
-    if "use_container_width" in kwargs:
-        warn(
-            "use_container_width is not supported by the trame backend.\n"
-            "It will default to True"
-        )
-
     if "panel_kwargs" in kwargs:
         warn(
             "panel_kwargs is not supported by the trame backend.\n"
@@ -48,4 +42,9 @@ def stpyvista(plotter: Plotter, **kwargs) -> None:
     html_plotter = queue.get().read()
     process.join()
 
-    components.html(html_plotter, height=plotter.window_size[1])
+    if kwargs.get("use_container_width", True):
+        width = None
+    else:
+        width = plotter.window_size[0]
+
+    components.html(html_plotter, height=plotter.window_size[1], width=width)

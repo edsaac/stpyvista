@@ -1,10 +1,21 @@
 import streamlit as st
 import pyvista as pv
-from stpyvista import stpyvista
 
 st.set_page_config(page_icon="🧊", layout="wide")
+
 st.title("🧊 `stpyvista`")
 st.sidebar.header("Show PyVista 3D visualizations in Streamlit")
+backend = st.sidebar.radio(
+    "Select backend",
+    ["panel", "trame"],
+)
+st.sidebar.divider()
+
+if backend == "panel":
+    from stpyvista.panel_backend import stpyvista
+else:
+    from stpyvista.trame_backend import stpyvista
+
 
 ## Initialize a plotter object
 plotter = pv.Plotter(window_size=[200, 200])
@@ -19,7 +30,6 @@ mesh.set_active_scalars("otherscalar")
 
 ## Add mesh to the plotter
 plotter.add_mesh(mesh, cmap="bwr", line_width=1, label="cube")
-plotter.add_scalar_bar()
 plotter.add_title("My cube", color="black", font_size=14)
 
 ## Final touches

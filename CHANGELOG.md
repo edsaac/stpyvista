@@ -1,6 +1,7 @@
 # Changelog
 
-## [v 0.1.1] - 2024-10-02
+## [v 0.1.1] - 2024-10-08
+- Capture kwargs for trame_backend
 - Update docstrings and add TypeDicts for panel options
 - Add `nest_asyncio` to trame requirements
 

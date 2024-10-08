@@ -21,7 +21,7 @@ keywords = ["pyvista", "3D", "streamlit", "panel", "visualization"]
 dependencies = ["streamlit", "pyvista", "bokeh", "panel"]
 
 [project.optional-dependencies]
-trame = ["trame", "trame-vuetify", "trame-vtk"]
+trame = ["nest_asyncio", "trame", "trame-vuetify", "trame-vtk"]
 
 [project.urls]
 "Homepage" = "https://stpyvista.streamlit.app/"

@@ -20,10 +20,8 @@ import streamlit.components.v1 as components
 
 from pyvista.plotting import Plotter
 from pathlib import Path
-from bokeh.resources import CDN, INLINE
 
 pn.extension("vtk", sizing_mode="stretch_both")
-BOKEH_RESOURCES = {"CDN": CDN, "INLINE": INLINE}
 
 
 frontend_dir = (Path(__file__).parent / "panel_based").absolute()
@@ -137,9 +135,9 @@ def stpyvista(
         See the example guide at https://stpyvista.streamlit.app/?gallery=axes
 
     bokeh_resources: Literal["CDN", "INLINE"] = "INLINE"
-        Source of the BokehJS configuration. Check:
-        https://docs.bokeh.org/en/latest/docs/reference/resources.html for details.
-
+        [Deprecated] Source of the BokehJS configuration. 
+        This keyword argument is not used and will be removed in a future version.
+    
     key: Optional[str] = None
         An optional key that uniquely identifies this component. If this is
         None, and the component's arguments are changed, the component will
@@ -155,18 +153,10 @@ def stpyvista(
     width, height = plotter.window_size
     vtk_pane = pn.pane.VTK(plotter.ren_win, **panel_kwargs)
 
-    # Check bokeh_resources
-    if bokeh_resources not in ("CDN", "INLINE"):
-        raise ValueError(
-            f'"{bokeh_resources}" is not a valid bokeh resource. '
-            'Valid options are "CDN" or "INLINE".'
-        )
-
     # Create HTML file
     with StringIO() as model_bytes:
         vtk_pane.save(
             model_bytes,
-            resources=BOKEH_RESOURCES[bokeh_resources],
             title="Running stpyvista",
         )
         panel_html = model_bytes.getvalue()

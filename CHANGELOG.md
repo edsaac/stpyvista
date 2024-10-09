@@ -1,5 +1,10 @@
 # Changelog
 
+## [v 0.1.4] - 2024-10-10
+- Fixing memory consumption issue with `stpyvista.panel_backend`
+    - Removed `bokeh_resources` option from `stpyvista.panel_backend` and defaults to CDN.
+    - Add deprecation note for `bokeh_resources` keyword argument.
+
 ## [v 0.1.3] - 2024-10-09
 - Fix width bug while using panel backend 
 - Add support for Python < 3.11 for `Required` and `NotRequired` types in `stpyvista.panel_backend`

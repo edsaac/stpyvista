@@ -1,8 +1,9 @@
 from multiprocessing import Process, Queue
 from warnings import warn
 from pathlib import Path
-import streamlit.components.v1 as components
+from typing import Optional
 
+import streamlit.components.v1 as components
 from pyvista.plotting import Plotter
 
 
@@ -50,7 +51,12 @@ _component_func = components.declare_component(
 )
 
 
-def stpyvista(plotter: Plotter, use_container_width=True, key=None, **kwargs) -> None:
+def stpyvista(
+    plotter: Plotter,
+    use_container_width: bool = True,
+    key: Optional[str] = None,
+    **kwargs,
+) -> None:
     """
     Renders an interactive Pyvista Plotter in streamlit using the
     trame backend.

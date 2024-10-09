@@ -1,5 +1,9 @@
 # Changelog
 
+## [v 0.1.2] - 2024-10-09
+- Implement trame backend using `st.components.declare_component`; it was implemented using `st.components.html`
+- Trame backend accepts a `key` to avoid remounting of the component at every interaction.
+
 ## [v 0.1.1] - 2024-10-08
 - Capture kwargs for trame_backend
 - Update docstrings and add TypeDicts for panel options

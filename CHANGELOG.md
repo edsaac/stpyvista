@@ -1,6 +1,7 @@
 # Changelog
 
 ## [v 0.1.3] - 2024-10-09
+- Fix width bug while using panel backend 
 - Add support for Python < 3.11 for `Required` and `NotRequired` types in `stpyvista.panel_backend`
 
 ## [v 0.1.2] - 2024-10-09

@@ -3,9 +3,17 @@ from typing import (
     Optional,
     Literal,
     TypedDict,
-    Required,
-    NotRequired,
 )
+
+try:
+    # Available from Python 3.11
+    from typing import Required, NotRequired
+
+except ImportError:
+    # Fallback for older Python versions.
+    #   typing_extensions is not a dependency of stpyvista but it
+    #   is a dependency of streamlit, so it should be available.
+    from typing_extensions import Required, NotRequired
 
 import panel as pn
 import streamlit.components.v1 as components

@@ -5,15 +5,14 @@ st.set_page_config(page_icon="🧊", layout="wide")
 
 st.title("🧊 `stpyvista`")
 st.sidebar.header("Show PyVista 3D visualizations in Streamlit")
-backend = st.sidebar.radio(
-    "Select backend",
-    ["panel", "trame"],
-)
+backend = st.sidebar.radio("Select backend", ["panel", "trame_html", "trame"], index=2)
 st.sidebar.divider()
 
 if backend == "panel":
     from stpyvista.panel_backend import stpyvista
-else:
+elif backend == "trame_html":
+    from stpyvista.trame_backend import _as_html as stpyvista
+elif backend == "trame":
     from stpyvista.trame_backend import stpyvista
 
 
@@ -55,3 +54,8 @@ cols = st.columns([1, 2, 1], gap="small")
 for i, col in enumerate(cols):
     with col:
         stpyvista(plotter, use_container_width=chk, key=f"cube_{i}")
+
+stpyvista(plotter, use_container_width=chk)
+print(hash(plotter))
+
+st.sidebar.button("Rerun")

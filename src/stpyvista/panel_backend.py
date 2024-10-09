@@ -105,7 +105,7 @@ def stpyvista(
         Pyvista plotter object to render.
     
     use_container_width : bool = True
-        If True, set the dataframe width to the width of the parent container. \
+        If True, set the 3D view width to the width of the parent container. \
         This takes precedence over the `horizontal_align` argument. \
         Defaults to `True`.
     
@@ -171,7 +171,6 @@ def stpyvista(
         use_container_width=1 if use_container_width else 0,
         bgcolor=plotter.background_color.hex_rgba,
         key=key,
-        default=0,
     )
 
     return component_value

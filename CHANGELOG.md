@@ -1,5 +1,9 @@
 # Changelog
 
+## [v 0.1.3] - 2024-10-09
+- Fix width bug while using panel backend 
+- Add support for Python < 3.11 for `Required` and `NotRequired` types in `stpyvista.panel_backend`
+
 ## [v 0.1.2] - 2024-10-09
 - Implement trame backend using `st.components.declare_component`; it was implemented using `st.components.html`
 - Trame backend accepts a `key` to avoid remounting of the component at every interaction.

@@ -37,6 +37,8 @@ function onRender(event) {
         }
 
         if (Boolean(use_container_width)) {
+            updateFrameWidth();
+
             window.onresize = function (event) {
                 updateFrameWidth();
             }

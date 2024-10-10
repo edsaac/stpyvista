@@ -20,7 +20,7 @@
 <a href="https://stpyvista.streamlit.app"><img alt="Streamlit Cloud" src="assets/stpyvista_intro_crop.gif" width="400"></a>
 </p>
 
-Take a PyVista plotter object and show it on Streamlit as an interactive<em>-ish</em> component (as in it can be zoomed in/out, moved and rotated, but the visualization state is not returned). It can use either [Panel](https://panel.holoviz.org/reference/panes/VTK.html#working-with-pyvista) or [Trame](https://docs.pyvista.org/user-guide/jupyter/trame#trame-jupyter) to export the PyVista plotter objects to HTML and place them within an iframe in Streamlit.
+Take a PyVista plotter object and show it on Streamlit as an interactive<em>-ish</em> component (as in it can be zoomed in/out, moved and rotated, but the visualization state is not returned). It can use either [Panel](https://panel.holoviz.org/reference/panes/VTK.html#working-with-pyvista) or [Trame](https://docs.pyvista.org/user-guide/jupyter/trame#trame-jupyter) to export the PyVista plotter to HTML; `stpyvista` places it within an iframe in Streamlit.
 
 ******
 ### 📦 Installation 

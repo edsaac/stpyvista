@@ -4,6 +4,7 @@
 - Fixing memory consumption issue with `stpyvista.panel_backend`
     - Removed `bokeh_resources` option from `stpyvista.panel_backend` and defaults to CDN.
     - Add deprecation note for `bokeh_resources` keyword argument.
+- Organize backends folder
 
 ## [v 0.1.3] - 2024-10-09
 - Fix width bug while using panel backend 

@@ -31,8 +31,9 @@ function onRender(event) {
         mainframe.parentElement.style.textAlign = horizontal_align;
         mainframe.contentDocument.querySelector('body').style.backgroundColor = bgcolor;
 
+
         function updateFrameWidth() {
-            delete mainframe.width;
+            // delete mainframe.width;
             stpyvistaframe.width = document.body.offsetWidth + 20;
         }
 

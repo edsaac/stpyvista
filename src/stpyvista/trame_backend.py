@@ -45,8 +45,8 @@ def _as_html(plotter: Plotter, **kwargs) -> None:
 
 ## Using component declaration
 
-frontend_dir = (Path(__file__).parent / "trame_based").absolute()
-_component_func = components.declare_component(
+frontend_dir = (Path(__file__).parent / "backends/trame_based").absolute()
+_stpv_trame_component = components.declare_component(
     "stpyvista_trame", path=str(frontend_dir)
 )
 
@@ -103,7 +103,7 @@ def stpyvista(
     width = None if use_container_width else plotter.window_size[0]
     height = plotter.window_size[1]
 
-    _component_func(
+    _stpv_trame_component(
         trame_html=html_plotter,
         height=height,
         width=width,

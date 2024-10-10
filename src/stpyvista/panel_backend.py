@@ -1,9 +1,15 @@
 from io import StringIO
+from pathlib import Path
 from typing import (
     Optional,
     Literal,
     TypedDict,
 )
+
+import panel as pn
+import streamlit.components.v1 as components
+
+from pyvista.plotting import Plotter
 
 try:
     # Available from Python 3.11
@@ -15,17 +21,11 @@ except ImportError:
     #   is a dependency of streamlit, so it should be available.
     from typing_extensions import Required, NotRequired
 
-import panel as pn
-import streamlit.components.v1 as components
-
-from pyvista.plotting import Plotter
-from pathlib import Path
 
 pn.extension("vtk", sizing_mode="stretch_both")
 
-
-frontend_dir = (Path(__file__).parent / "panel_based").absolute()
-_component_func = components.declare_component(
+frontend_dir = (Path(__file__).parent / "backends/panel_based").absolute()
+_stpv_panel_component = components.declare_component(
     "stpyvista_panel", path=str(frontend_dir)
 )
 
@@ -161,7 +161,7 @@ def stpyvista(
         )
         panel_html = model_bytes.getvalue()
 
-    component_value = _component_func(
+    component_value = _stpv_panel_component(
         panel_html=panel_html,
         height=height,
         width=width,

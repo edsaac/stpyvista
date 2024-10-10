@@ -38,7 +38,7 @@ def start_xvfb():
 
     is_xvfb_running = _run_command(["pgrep", "Xvfb"])
     print(datetime.now().strftime(r"%y-%m-%d %H:%M:%S"))
-    
+
     if is_xvfb_running.returncode == 1:
         print("--> Initialize")
         pv_start_xvfb()
@@ -52,4 +52,3 @@ def start_xvfb():
             f"{is_xvfb_running.stdout}"
             f"{is_xvfb_running.stderr}"
         )
-

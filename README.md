@@ -105,4 +105,4 @@ stpyvista(plotter, key="pv_cube")
 * The PyVista project at [https://www.pyvista.org/](https://www.pyvista.org/)
 * Working with Panel and Pyvista [https://panel.holoviz.org](https://panel.holoviz.org/reference/panes/VTK.html#working-with-pyvista)
 * @blackary['s blog post](https://blog.streamlit.io/how-to-build-your-own-streamlit-component/) on how to build a custom component
-* Other stuff from me on [https://edsaac.github.io](https://edsaac.github.io)
+* Other stuff from me on [https://edsaac.me](https://edsaac.me)

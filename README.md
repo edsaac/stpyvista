@@ -11,8 +11,8 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/edsaac/stpyvista"><img alt="Github Repo" src="https://img.shields.io/static/v1?label=&message=Source code&color=purple&logo=github"></a> 
-<a href="https://pypi.org/project/stpyvista/"><img alt="Check it at PyPI" src="https://badgen.net/pypi/v/stpyvista/">
+<a href="https://github.com/edsaac/stpyvista"><img alt="Github Repo" src="https://img.shields.io/static/v1?label=&message=Source%20code&color=purple&logo=github"></a>
+<a href="https://pypi.org/project/stpyvista/"><img alt="Check it at PyPI" src="https://badgen.net/pypi/v/stpyvista/"></a>
 <a href="https://github.com/edsaac/stpyvista-tests"><img alt="Github tests repo" src="https://img.shields.io/static/v1?label=&message=Examples&color=purple&logo=github"></a>
 </p>
   

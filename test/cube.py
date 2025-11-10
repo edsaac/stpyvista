@@ -5,7 +5,7 @@ st.set_page_config(page_icon="🧊", layout="wide")
 
 st.title("🧊 `stpyvista`")
 st.sidebar.header("Show PyVista 3D visualizations in Streamlit")
-backend = st.sidebar.radio("Select backend", ["panel", "trame_html", "trame"], index=2)
+backend = st.sidebar.radio("Select backend", ["panel", "trame_html", "trame"], index=0)
 st.sidebar.divider()
 
 if backend == "panel":

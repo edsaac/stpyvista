@@ -1,4 +1,7 @@
 # Changelog
+## [v 0.1.5] - 2025-11-10
+- Python 3.9 EOL, update `pyproject.toml`
+
 
 ## [v 0.1.4] - 2024-10-10
 - Fixing memory consumption issue with `stpyvista.panel_backend`

@@ -10,7 +10,7 @@ authors = [
 ]
 description = "Streamlit component to render PyVista 3D visualizations"
 readme = "PyPI_README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 classifiers = [
   "Programming Language :: Python :: 3",
   "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
@@ -30,3 +30,6 @@ trame = ["nest_asyncio", "trame", "trame-vuetify", "trame-vtk"]
 
 [tool.hatch.build.targets.sdist]
 exclude = ["/test", "/assets"]
+
+[tool.streamlit.stpyvista]
+asset_dir = "./panel_based/"

@@ -1,20 +1,8 @@
 from io import StringIO
-from pathlib import Path
-from typing import (
-    Optional,
-    Literal,
-    TypedDict,
-)
+from typing import TypedDict
 
 import panel as pn
-import streamlit.components.v1 as components_v1
-from streamlit.components.v2 import component
-
-from streamlit.version import STREAMLIT_VERSION_STRING
-from pyvista.plotting import Plotter
-
-
-from packaging.version import Version
+from pyvista import Plotter
 
 try:
     # Available from Python 3.11
@@ -93,166 +81,16 @@ class PanelVTKKwargs(TypedDict, total=False):
     interactive_orientation_widget: bool
 
 
-if Version(STREAMLIT_VERSION_STRING) < Version("1.51.0"):
-    frontend_dir = (Path(__file__).parent / "backends/panel_based").absolute()
-    _stpv_panel_component = components_v1.declare_component("stpyvista_panel", path=str(frontend_dir))
+def _panel_html(plotter: Plotter, **backend_kwargs) -> str:
+    width, height = plotter.window_size
+    vtk_pane = pn.pane.VTK(plotter.ren_win, **backend_kwargs)
 
-    def stpyvista(
-        plotter: Plotter,
-        use_container_width: bool = True,
-        horizontal_align: Literal["center", "left", "right"] = "center",
-        panel_kwargs: Optional[PanelVTKKwargs] = None,
-        bokeh_resources: Literal["CDN", "INLINE"] = "INLINE",
-        key: Optional[str] = None,
-    ) -> None:
-        """
-        Renders an interactive Pyvista Plotter in streamlit using the 
-        panel backend.
-        
-        Parameters
-        ----------
-        plotter: pv.Plotter
-            Pyvista plotter object to render.
-        
-        use_container_width : bool = True
-            If True, set the 3D view width to the width of the parent container. \
-            This takes precedence over the `horizontal_align` argument. \
-            Defaults to `True`.
-        
-        horizontal_align : Literal["center", "left", "right"] = "center"
-            Horizontal alignment of the stpyvista component. This parameter is ignored if 
-            `use_container_width = True`. Defaults to `"center"`.
-
-        panel_kwargs : Optional[PanelVTKKwargs | dict] = None
-            Optional keyword parameters to pass to pn.panel(). Check the `PanelVTKKwargs` 
-            documentation for details. Here are a couple of useful ones:
-            
-            axes: PanelAxesConfig
-                Parameters of the axes to construct in the 3D view. 
-
-            orientation_widget : bool
-                Show the xyz axis indicator
-
-            interactive_orientation_widget: bool
-                Show and interactive xyz axis indicator
-
-            See the example guide at https://stpyvista.streamlit.app/?gallery=axes
-
-        bokeh_resources: Literal["CDN", "INLINE"] = "INLINE"
-            [Deprecated] Source of the BokehJS configuration. 
-            This keyword argument is not used and will be removed in a future version.
-        
-        key: Optional[str] = None
-            An optional key that uniquely identifies this component. If this is
-            None, and the component's arguments are changed, the component will
-            be re-mounted in the Streamlit frontend and lose its current state.
-        """
-
-        if not isinstance(plotter, Plotter):
-            raise TypeError(f"{plotter} is not a `pyvista.Plotter` instance.")
-
-        if panel_kwargs is None:
-            panel_kwargs = {}
-
-        width, height = plotter.window_size
-        vtk_pane = pn.pane.VTK(plotter.ren_win, **panel_kwargs)
-
-        # Create HTML file
-        with StringIO() as model_bytes:
-            vtk_pane.save(
-                model_bytes,
-                title="Running stpyvista",
-            )
-            panel_html = model_bytes.getvalue()
-
-        component_value = _stpv_panel_component(
-            panel_html=panel_html,
-            height=height,
-            width=width,
-            horizontal_align=horizontal_align,
-            use_container_width=1 if use_container_width else 0,
-            bgcolor=plotter.background_color.hex_rgba,
-            key=key,
+    # Create HTML file
+    with StringIO() as model_bytes:
+        vtk_pane.save(
+            model_bytes,
+            title="Running stpyvista",
         )
+        html_plotter = model_bytes.getvalue()
 
-        return component_value
-else:
-    _html = """
-        <div id="stpyvistadiv">
-            <iframe id="stpyvistaframe"
-            sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads"
-            frameborder="0" allowfullscreen allowtransparency="true"></iframe>
-        </div>
-        """
-
-    _js = """
-        export default function(component) {
-            const { setStateValue, parentElement, data } = component;
-            const stpyvistaframe = parentElement.getElementById("stpyvistaframe");
-            stpyvistaframe.srcdoc = data.panel_html;
-            }
-       """
-    _stpv_panel_component = component("stpyvista", html=_html, js=_js)
-
-    def stpyvista(
-        plotter: Plotter,
-        use_container_width: bool = True,
-        horizontal_align: Literal["center", "left", "right"] = "center",
-        panel_kwargs: Optional[PanelVTKKwargs] = None,
-        bokeh_resources: Literal["CDN", "INLINE"] = "INLINE",
-        key: Optional[str] = None,
-    ) -> None:
-        """
-        Renders an interactive Pyvista Plotter in streamlit using the
-        panel backend.
-
-        Parameters
-        ----------
-        plotter: pv.Plotter
-            Pyvista plotter object to render.
-
-        panel_kwargs : Optional[PanelVTKKwargs | dict] = None
-            Optional keyword parameters to pass to pn.panel(). Check the `PanelVTKKwargs`
-            documentation for details. Here are a couple of useful ones:
-
-            axes: PanelAxesConfig
-                Parameters of the axes to construct in the 3D view.
-
-            orientation_widget : bool
-                Show the xyz axis indicator
-
-            interactive_orientation_widget: bool
-                Show and interactive xyz axis indicator
-
-            See the example guide at https://stpyvista.streamlit.app/?gallery=axes
-
-        key: Optional[str] = None
-            An optional key that uniquely identifies this component. If this is
-            None, and the component's arguments are changed, the component will
-            be re-mounted in the Streamlit frontend and lose its current state.
-        """
-
-        if not isinstance(plotter, Plotter):
-            raise TypeError(f"{plotter} is not a `pyvista.Plotter` instance.")
-
-        if panel_kwargs is None:
-            panel_kwargs = {}
-
-        width, height = plotter.window_size
-        vtk_pane = pn.pane.VTK(plotter.ren_win, **panel_kwargs)
-
-        # Create HTML file
-        with StringIO() as model_bytes:
-            vtk_pane.save(
-                model_bytes,
-                title="Running stpyvista",
-            )
-            panel_html = model_bytes.getvalue()
-        data = {"panel_html": panel_html}
-        component_value = _stpv_panel_component(
-            data=data,
-            height="content",
-            key=key,
-        )
-
-        return component_value
+    return html_plotter

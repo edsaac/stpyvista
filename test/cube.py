@@ -1,6 +1,9 @@
 import streamlit as st
 import pyvista as pv
 from stpyvista import stpyvista
+from stpyvista.panel_backend import _panel_html
+from stpyvista.trame_backend import _trame_html
+
 
 st.set_page_config(page_icon="🧊", layout="wide")
 
@@ -27,7 +30,13 @@ plotter.add_title("My cube", color="black", font_size=14)
 
 ## Final touches
 plotter.view_isometric()
-plotter.background_color = "lightgray"
+plotter.background_color = "pink"
+
+width = st.selectbox("width", options=["stretch", "content", "number"])
+bgcolor = st.selectbox("bgcolor", options=["default", "theme"])
+
+if width == "number":
+    width_n = st.number_input("width n", 10, 800, 300, 10)
 
 cols = st.columns(2)
 
@@ -36,15 +45,22 @@ with cols[0]:
         plotter,
         backend="panel",
         backend_kwargs=dict(orientation_widget=True),
+        width=width_n if width == "number" else width,
         key="cube_panel",
     )
+
+# st.code(_panel_html(plotter), language="html")
 
 with cols[1]:
     stpyvista(
         plotter,
         backend="trame",
+        width=width_n if width == "number" else width,
         key="cube_trame",
     )
+
+# st.code(_trame_html(plotter), language="html")
+
 
 ## Add something else below
 st.markdown("hello there 🍒 " * 50)

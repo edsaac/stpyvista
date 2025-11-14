@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Optional, Literal, TypeAlias
 
+import streamlit as st
 from streamlit.components.v2 import component
 from streamlit.version import STREAMLIT_VERSION_STRING
 from pyvista.plotting import Plotter
@@ -16,21 +17,23 @@ if Version(STREAMLIT_VERSION_STRING) < Version("1.51.0"):
     frontend_dir = (Path(__file__).parent / "backends/panel_based").absolute()
 
 
-_html = """
-    <div id="stpyvistadiv">
-        <iframe id="stpyvistaframe"
-        sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads"
-        frameborder="0" allowfullscreen allowtransparency="true"></iframe>
-    </div>
-    """
+_html = """\
+<div id="stpyvistadiv">
+    <iframe id="stpyvistaframe" sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads" frameborder="0" allowfullscreen allowtransparency="true">
+    </iframe>
+</div>
+"""
 
-_js = """
-    export default function(component) {
-        const { setStateValue, parentElement, data } = component;
-        const stpyvistaframe = parentElement.getElementById("stpyvistaframe");
-        stpyvistaframe.srcdoc = data._html;
-        }
-    """
+_js = """\
+export default function (component) {
+    const { setStateValue, parentElement, data } = component;
+    const stpyvistaframe = parentElement.getElementById("stpyvistaframe");
+
+    // Put plotter in iframe
+    stpyvistaframe.srcdoc = data._html;
+    stpyvistaframe.style.width = "100%";
+    }
+"""
 
 _stpv_component = component("stpyvista", html=_html, js=_js)
 

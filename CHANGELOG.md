@@ -1,4 +1,8 @@
 # Changelog
+
+## [v 0.2.1] - 2026-02-08
+- Modify pyproject.toml to test `StreamlitAPIException`
+
 ## [v 0.2.0] - 2026-02-08
 - Move from streamlit.components.v1 to v2 
 - API breaking changes: 

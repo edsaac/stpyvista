@@ -28,5 +28,6 @@ panel = ["bokeh", "panel"]
 "Bug Tracker" = "https://github.com/edsaac/stpyvista/issues"
 
 [tool.hatch.build]
-include = ["stpyvista", "README.md", "pyproject.toml", "LICENSE"]
+packages = ["stpyvista"]
+include = ["README.md", "pyproject.toml", "LICENSE"]
 exclude = ["test", "assets", ".gitignore"]

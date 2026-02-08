@@ -65,8 +65,8 @@ plotter.view_isometric()
 plotter.add_scalar_bar()
 plotter.background_color = 'white'
 
-## Pass a key to avoid re-rendering at each page change
-stpyvista(plotter, key="pv_cube")
+## Show in web-app
+stpyvista(plotter)
 
 ```
 </details>

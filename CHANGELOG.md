@@ -1,4 +1,14 @@
 # Changelog
+## [v 0.2.0] - 2026-02-08
+- Move from streamlit.components.v1 to v2 
+- API breaking changes: 
+    - Renamed `panel_kwargs` to `backend_kwargs` to generalize.
+    - Removed `horizontal_align`. Managed that using `st.container` instead.
+- Remove xvfb instantiation - deprecated by PyVista.
+
+
+## [v 0.1.5] - 2025-11-10
+- Python 3.9 EOL, update `pyproject.toml`
 
 ## [v 0.1.4] - 2024-10-10
 - Fixing memory consumption issue with `stpyvista.panel_backend`

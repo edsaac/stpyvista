@@ -1,0 +1,7 @@
+[project]
+name = "stpyvista"
+version = "0.2.0"
+
+[[tool.streamlit.component.components]]
+name = "simple"
+asset_dir = "backends"

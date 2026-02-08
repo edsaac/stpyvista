@@ -9,14 +9,17 @@ from .dataview import dataview
 from .panel_backend import PanelVTKKwargs, _panel_html
 from .trame_backend import _trame_html
 
+# Type definitions
 WindowDimension: TypeAlias = int | Literal["stretch", "content"]
 
+# Check Streamlit version supports components.v2
 if Version(STREAMLIT_VERSION_STRING) < Version("1.51.0"):
     raise ImportError(
         f"Streamlit version {STREAMLIT_VERSION_STRING} should be >= 1.51"
         "Pin stpyvista<=0.1.4 for components.v1 compatibility"
     )
 
+# Declare component to create callable
 _html = (
     '<div id="stpyvistadiv">'
     '<iframe id="stpyvistaframe" frameborder="0" allowfullscreen allowtransparency referrerpolicy="same-origin">'
@@ -31,7 +34,7 @@ _stpv_component = component(
     isolate_styles=True,
 )
 
-
+# Expose this to streamlit user
 def stpyvista(
     plotter: Plotter,
     backend: Literal["panel", "trame"] = "trame",
@@ -40,8 +43,7 @@ def stpyvista(
     key: Optional[str] = None,
 ) -> None:
     """
-    Renders an interactive Pyvista Plotter in streamlit using the
-    panel backend.
+    Renders an interactive Pyvista Plotter in streamlit using either panel or trame backends.
 
     Parameters
     ----------
@@ -49,11 +51,11 @@ def stpyvista(
         Pyvista plotter object to render.
 
     backend: Literal["panel", "trame"] = "trame",
-        Supported backends are `panel` or `trame`
+        Supported backends are `panel` or `trame`. Each requires separate dependencies.
 
     backend_kwargs : Optional[PanelVTKKwargs | dict] = None
-        Optional keyword parameters to pass to pn.panel(). Check the `PanelVTKKwargs`
-        documentation for details. Here are a couple of useful ones:
+        Optional keyword parameters to pass to `pn.panel()`. Check the `PanelVTKKwargs`
+        documentation for details. Here is a list with some useful ones:
 
         axes: PanelAxesConfig
             Parameters of the axes to construct in the 3D view.
@@ -66,10 +68,14 @@ def stpyvista(
 
         See the example guide at https://stpyvista.streamlit.app/?gallery=axes
 
+    width =: WindowDimension = "stretch"
+        The width of the stpyvista plotter. If set to "stretch" (default), the width matches the parent container. If 
+        set to "content", the width matches the `plotter.window_size`. If an integer is passed, it is set as the
+        the width in pixels. 
+    
     key: Optional[str] = None
-        An optional key that uniquely identifies this component. If this is
-        None, and the component's arguments are changed, the component will
-        be re-mounted in the Streamlit frontend and lose its current state.
+        An optional key that uniquely identifies this component. If this is None, and the component's arguments are 
+        changed, the component will be re-mounted in the Streamlit frontend and lose its current state.
     """
 
     if not isinstance(plotter, Plotter):

@@ -4,7 +4,7 @@ from typing import Optional
 from io import StringIO
 
 import streamlit.components.v1 as components
-
+import panel as pn
 from trame.app import get_server
 from trame.widgets import (
     vuetify as vuetify,

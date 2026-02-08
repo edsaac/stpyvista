@@ -2,7 +2,7 @@ import streamlit as st
 import pyvista as pv
 import numpy as np
 from stpyvista import dataview
-from stpyvista.trame_backend import stpyvista
+from stpyvista import stpyvista
 
 
 def put_in_plotter(actor: pv.DataSet):

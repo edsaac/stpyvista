@@ -82,14 +82,21 @@ class PanelVTKKwargs(TypedDict, total=False):
 
 
 def _panel_html(plotter: Plotter, **backend_kwargs) -> str:
+
+    use_container_width = backend_kwargs.pop("use_container_width", False)
     width, height = plotter.window_size
+    backend_kwargs["height"] = height 
+    
+    if not use_container_width:
+        backend_kwargs["width"] = width
+    
     vtk_pane = pn.pane.VTK(plotter.ren_win, **backend_kwargs)
 
     # Create HTML file
     with StringIO() as model_bytes:
         vtk_pane.save(
             model_bytes,
-            title="Running stpyvista",
+            title="Running stpyvista.panel_based",
         )
         html_plotter = model_bytes.getvalue()
 

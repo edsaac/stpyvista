@@ -4,10 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "stpyvista"
-version = "0.1.4"
-authors = [
-  { name = "Edwin Saavedra C.", email = "esaavedrac@u.northwestern.edu" },
-]
+version = "0.2.0"
+authors = [{ name = "Edwin Saavedra C.", email = "hola@edsaac.me" }]
 description = "Streamlit component to render PyVista 3D visualizations"
 readme = "PyPI_README.md"
 requires-python = ">=3.10"
@@ -18,18 +16,17 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Visualization",
 ]
 keywords = ["pyvista", "3D", "streamlit", "panel", "visualization"]
-dependencies = ["streamlit", "pyvista", "bokeh", "panel"]
+dependencies = ["streamlit>=1.51", "pyvista", "bokeh", "panel"]
 
 [project.optional-dependencies]
 trame = ["nest_asyncio", "trame", "trame-vuetify", "trame-vtk"]
+panel = ["bokeh", "panel"]
 
 [project.urls]
 "Homepage" = "https://stpyvista.streamlit.app/"
 "Source Code" = "https://github.com/edsaac/stpyvista"
 "Bug Tracker" = "https://github.com/edsaac/stpyvista/issues"
 
-[tool.hatch.build.targets.sdist]
-exclude = ["/test", "/assets"]
-
-[tool.streamlit.stpyvista]
-asset_dir = "./panel_based/"
+[tool.hatch.build]
+include = ["stpyvista", "README.md", "pyproject.toml", "LICENSE"]
+exclude = ["test", "assets", ".gitignore"]

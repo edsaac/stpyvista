@@ -1,6 +1,7 @@
 from base64 import b64encode
 from pathlib import Path
 from typing import Optional
+from io import StringIO
 
 import streamlit.components.v1 as components
 
@@ -15,10 +16,8 @@ from pyvista.plotting import Plotter
 
 # Tell streamlit that there is a component called `experimental_vtkjs`,
 # and that the code to display that component is in the "vanilla_vtkjs" folder
-frontend_dir = (Path(__file__).parent / "backends/vtkjs_based").absolute()
-_stpv_vtkjs_component = components.declare_component(
-    "experimental_vtkjs", path=str(frontend_dir)
-)
+frontend_dir = (Path(__file__).parent / "backends/v1/vtkjs_based").absolute()
+_stpv_vtkjs_component = components.declare_component("experimental_vtkjs", path=str(frontend_dir))
 
 SERVER_NAME = "stpyvista_server"
 
@@ -88,3 +87,18 @@ def stpyvista(vtksz_data: bytes, height: int = 400, key: Optional[str] = None) -
     )
 
     return component_value
+
+
+def _vtkjs_html(plotter: Plotter, **backend_kwargs) -> str:
+    width, height = plotter.window_size
+    vtk_pane = pn.pane.VTK(plotter.ren_win, width=width, height=height, **backend_kwargs)
+
+    # Create HTML file
+    with StringIO() as model_bytes:
+        vtk_pane.save(
+            model_bytes,
+            title="Running stpyvista",
+        )
+        html_plotter = model_bytes.getvalue()
+
+    return html_plotter

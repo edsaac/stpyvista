@@ -1,11 +1,9 @@
-from pathlib import Path
 from typing import Optional, Literal, TypeAlias
 
-import streamlit as st
+from packaging.version import Version
+from pyvista.plotting import Plotter
 from streamlit.components.v2 import component
 from streamlit.version import STREAMLIT_VERSION_STRING
-from pyvista.plotting import Plotter
-from packaging.version import Version
 
 from .dataview import dataview
 from .panel_backend import PanelVTKKwargs, _panel_html
@@ -14,28 +12,24 @@ from .trame_backend import _trame_html
 WindowDimension: TypeAlias = int | Literal["stretch", "content"]
 
 if Version(STREAMLIT_VERSION_STRING) < Version("1.51.0"):
-    frontend_dir = (Path(__file__).parent / "backends/panel_based").absolute()
+    raise ImportError(
+        f"Streamlit version {STREAMLIT_VERSION_STRING} should be >= 1.51"
+        "Pin stpyvista<=0.1.4 for components.v1 compatibility"
+    )
 
+_html = (
+    '<div id="stpyvistadiv">'
+    '<iframe id="stpyvistaframe" frameborder="0" allowfullscreen allowtransparency referrerpolicy="same-origin">'
+    "</iframe></div>"
+)
 
-_html = """\
-<div id="stpyvistadiv">
-    <iframe id="stpyvistaframe" sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads" frameborder="0" allowfullscreen allowtransparency="true">
-    </iframe>
-</div>
-"""
-
-_js = """\
-export default function (component) {
-    const { setStateValue, parentElement, data } = component;
-    const stpyvistaframe = parentElement.getElementById("stpyvistaframe");
-
-    // Put plotter in iframe
-    stpyvistaframe.srcdoc = data._html;
-    stpyvistaframe.style.width = "100%";
-    }
-"""
-
-_stpv_component = component("stpyvista", html=_html, js=_js)
+_stpv_component = component(
+    "stpyvista.simple",
+    html=_html,
+    js="v2/stpyvista.js",
+    css="v2/style.css",
+    isolate_styles=True,
+)
 
 
 def stpyvista(
@@ -43,7 +37,6 @@ def stpyvista(
     backend: Literal["panel", "trame"] = "trame",
     backend_kwargs: Optional[PanelVTKKwargs] = None,
     width: WindowDimension = "stretch",
-    height: WindowDimension = "stretch",
     key: Optional[str] = None,
 ) -> None:
     """
@@ -85,16 +78,30 @@ def stpyvista(
     if backend_kwargs is None:
         backend_kwargs = {}
 
-    if backend == "panel":
-        iframe = _panel_html(plotter, **backend_kwargs)
+    # Determine width
+    use_container_width = width == "stretch"
+    plotter_width, height = plotter.window_size
 
+    if not use_container_width:
+        if not isinstance(width, int):
+            width = plotter_width
+
+    if backend == "panel":
+        iframe = _panel_html(plotter, use_container_width=use_container_width, **backend_kwargs)
     elif backend == "trame":
         iframe = _trame_html(plotter, **backend_kwargs)
     else:
         raise ValueError("backend value not supporter")
 
-    data = {"_html": iframe}
-    component_value = _stpv_component(data=data, width=width, height=height, key=key)
+    data = {
+        "_html": iframe,
+        "backend": backend,
+        "height": height,
+        "width": width,
+        "use_container_width": use_container_width,
+    }
+
+    component_value = _stpv_component(key=key, data=data)
     return component_value
 
 

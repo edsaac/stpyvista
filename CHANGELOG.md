@@ -1,4 +1,11 @@
 # Changelog
+## [v 0.2.2] - 2026-02-08
+- Fix bug in js logic for panel and trame container widths
+- Update `nest-asyncio` to `nest-asyncio2` dependency
+
+## [v 0.2.1] - 2026-02-08
+- Patch `pyproject.toml` to define package outside includes so st.components.v2 does not cra
+
 ## [v 0.2.0] - 2026-02-08
 - Move from streamlit.components.v1 to v2 
 - API breaking changes: 

@@ -22,7 +22,9 @@ if Version(STREAMLIT_VERSION_STRING) < Version("1.51.0"):
 # Declare component to create callable
 _html = (
     '<div id="stpyvistadiv">'
-    '<iframe id="stpyvistaframe" frameborder="0" allowfullscreen allowtransparency referrerpolicy="same-origin">'
+    '<iframe id="stpyvistaframe"'
+    ' sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads"'
+    ' frameborder="0" allowfullscreen allowtransparency="true">'
     "</iframe></div>"
 )
 

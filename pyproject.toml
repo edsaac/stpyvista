@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "stpyvista"
-version = "0.2.1"
+version = "0.2.2"
 authors = [{ name = "Edwin Saavedra C.", email = "hola@edsaac.me" }]
 description = "Streamlit component to render PyVista 3D visualizations"
 readme = "PyPI_README.md"
@@ -19,7 +19,7 @@ keywords = ["pyvista", "3D", "streamlit", "panel", "visualization"]
 dependencies = ["streamlit>=1.51", "pyvista", "bokeh", "panel"]
 
 [project.optional-dependencies]
-trame = ["nest_asyncio", "trame", "trame-vuetify", "trame-vtk"]
+trame = ["nest_asyncio2", "trame", "trame-vuetify", "trame-vtk"]
 panel = ["bokeh", "panel"]
 
 [project.urls]

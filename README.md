@@ -75,17 +75,16 @@ stpyvista(plotter)
 
 ### 🎈 Deploying to Streamlit Community Cloud
 
-- By default, Community Cloud will run Python 3.12 🎈. Check this on New App → Advanced settings... → Python version.
+- By default, Community Cloud will run Python 3.14 🎈. Check this on New App → Advanced settings... → Python version.
 - Add `stpyvista` to the `requirements.txt` file.
-- Install `procps`, `libgl1-mesa-glx` and `xvfb` by adding them to the `packages.txt` file.
-- The Community Cloud is a Debian headless machine and Pyvista requires a virtual framebuffer to work. `stpyvista.utils.start_xvfb` checks if Xvfb is running and [starts it](https://docs.pyvista.org/version/stable/api/utilities/_autosummary/pyvista.start_xvfb) if it was not. 
+- Install `libgl1-mesa-glx`, `libosmesa6-dev` and `libxcursor-dev` adding them to the `packages.txt` file.
+- The Community Cloud is a Debian headless machine and VTK will attempt to find a rendering environment [(more info)](https://docs.vtk.org/en/latest/build_instructions/build_settings.html#opengl-related-build-options). Setting these two environment variables should do the trick:
 
   ```python
-  from stpyvista.utils import start_xvfb
+  import os
 
-  if "IS_XVFB_RUNNING" not in st.session_state:
-    start_xvfb()
-    st.session_state.IS_XVFB_RUNNING = True 
+  os.environ["VTK_USE_X"] = "OFF"
+  os.environ["VTK_DEFAULT_OPENGL_WINDOW"] = "vtkOSOpenGLRenderWindow"
   ```
 
 ****
